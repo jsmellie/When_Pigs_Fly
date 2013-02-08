@@ -30,6 +30,9 @@
 #define TAG_PLAYER_IDLE		4
 #define TAG_PLAYER_ANI		1
 
+// Player's name
+#define NAME_PLAYER			"Player"
+
 class Player : public Object
 {
 	//Fields
@@ -68,6 +71,9 @@ public:
 	//Overrite sprite setter so that it no longer does anything so that you can't
 	//accidentally override player's sprite
 	virtual void setSprite(CCSprite* sprite);
+
+	//Overrite name setter so that it no longer does anything.  We don't want it to be changed
+	virtual void setName(const char* name);
 
 	//Input functions
 	virtual void TouchBegin();

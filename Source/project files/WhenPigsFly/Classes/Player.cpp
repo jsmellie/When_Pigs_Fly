@@ -13,7 +13,7 @@ bool Player::init()
 		return false;
 	}
 
-	this->setName("Player");
+	m_Name = NAME_PLAYER;
 
 	b2World* world = GameScreen::getInstance()->getMain()->getWorld();
 
@@ -128,6 +128,8 @@ bool Player::init()
 }
 
 void Player::setSprite(CCSprite* sprite) {}
+
+void Player::setName(const char* name) {}
 
 void Player::update(float delta)
 {

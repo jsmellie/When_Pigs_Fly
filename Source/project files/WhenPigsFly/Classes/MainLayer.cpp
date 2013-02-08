@@ -6,8 +6,7 @@
 #include "ParallaxObject.h"
 #include "GLES-Render.h"
 #include "ObstacleManager.h"
-#include <iostream>
-#include <fstream>
+#include "CustomContactListener.h"
 
 USING_NS_CC;
 
@@ -44,6 +43,7 @@ bool MainLayer::init()
 	m_pLevelBody = NULL;
 	m_pDebugRenderer = NULL;
 	m_TimePassed = 0;
+	m_pContactListener = NULL;
     
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -75,23 +75,6 @@ bool MainLayer::init()
 
 void MainLayer::InitObjects()
 {
-	//COMPLETELY TEMPORARY
-	// ------------------------
-
-	string line;
-	ifstream testFile("testFile.txt");
-	if(testFile.is_open())
-	{
-		while(testFile.good())
-		{
-			getline(testFile, line);
-			CCLog(line.c_str());
-			int bp = 0;
-		}
-	}
-
-	// ------------------------
-
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
@@ -107,6 +90,11 @@ void MainLayer::InitObjects()
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;
 	m_pDebugRenderer->SetFlags(flags);
+
+	//Initialize the contact listener
+	m_pContactListener = new CustomContactListener();
+	//Attaching it to the world
+	m_pWorld->SetContactListener(m_pContactListener);
 
 	//Body deffinition for the level
 	b2BodyDef levelBobyDef;
@@ -183,6 +171,45 @@ void MainLayer::update(float delta)
 		m_TimePassed -= 1;
 		ObstacleManager::getInstance()->newObstacle();
 	}
+
+	//check contacts
+	vector<CustomContact>::iterator pos;
+
+	vector<CustomContact>::iterator endPos = m_pContactListener->m_Contacts.end();
+
+	for(pos = m_pContactListener->m_Contacts.begin(); pos != endPos; ++pos)
+	{
+		CustomContact contact = *pos;
+
+		CCLog("Collision!!");
+
+		CCParticleSystem* fireExplosion = CCParticleExplosion::createWithTotalParticles(200);
+
+		fireExplosion->setPosition(ccp(0,0));
+		fireExplosion->setLife(0.7f);
+		fireExplosion->setLifeVar(0.1f);
+
+		ccColor4F startColor;// color of particles
+        startColor.r = 0.76f;
+        startColor.g = 0.25f;
+        startColor.b = 0.12f;
+        startColor.a = 1.0f;
+
+		ccColor4F endColor;
+        endColor.r = 0.0f;
+        endColor.g = 0.0f;
+        endColor.b = 0.0f;
+        endColor.a = 0.0f;
+
+		fireExplosion->setStartColor(startColor);
+		fireExplosion->setStartColorVar(endColor);
+		fireExplosion->setEndColor(endColor);
+		fireExplosion->setEndColorVar(endColor);
+
+		m_pPlayer->addChild(fireExplosion, 10);
+	}
+
+	m_pContactListener->m_Contacts.clear();
 }
 
 void MainLayer::draw()

@@ -44,6 +44,7 @@ bool Object::init()
 	this->setPosition(ccp(origin.x, origin.y));
 
 	m_pSprite = NULL;
+	m_Name = NULL;
 
 	//Add the update func to the schedule
 	this->scheduleUpdate();

@@ -27,6 +27,9 @@
     <Filter Include="Classes\Managers">
       <UniqueIdentifier>{0efaf3dd-bae3-402c-8303-1bc04c05c8ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Physics Related">
+      <UniqueIdentifier>{4f06d242-2e9c-4e34-a325-f74d3914f775}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Obstacle.cpp">
       <Filter>Classes\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CustomContactListener.cpp">
+      <Filter>Classes\Physics Related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +110,12 @@
       <Filter>Classes\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Class Template.h">
+      <Filter>Classes\Helper Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CustomContactListener.h">
+      <Filter>Classes\Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NameDefines.h">
       <Filter>Classes\Helper Files</Filter>
     </ClInclude>
   </ItemGroup>

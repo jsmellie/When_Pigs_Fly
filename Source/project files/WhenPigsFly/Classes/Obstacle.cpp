@@ -201,7 +201,7 @@ bool Obstacle::resetFast()
 	int screenWidth = visibleSize.width + origin.x;
 	int screenHeight = visibleSize.height + origin.y;
 
-	this->setName("FastObt");
+	this->setName(NAME_FAST);
 
 	//Pick a random Y start location
 	int startY = (rand() % (screenHeight + 1));
@@ -264,7 +264,7 @@ bool Obstacle::resetFast()
 	//Initialize the emitter
 	if(m_pEmitter == NULL)
 	{
-		m_pEmitter = CCParticleSmoke::createWithTotalParticles(200, getWidth() / 3);
+		m_pEmitter = CCParticleSmoke::createWithTotalParticles(200, getHeight() / 2);
 
 		m_pEmitter->setGravity(ccp(0, 100));
 
@@ -273,7 +273,18 @@ bool Obstacle::resetFast()
 		m_pEmitter->setLifeVar(0.1f);
 		m_pEmitter->setEmissionRate(m_pEmitter->getTotalParticles() / (m_pEmitter->getLife() * 2));
 
-		m_pEmitter->setPosition(getWidth(), getHeight());
+		m_pEmitter->setPosition(getWidth(), getHeight() - m_pEmitter->getStartSize()/2);
+
+		CCParticleSystem* fireSystem = CCParticleFire::createWithTotalParticles(200);
+		fireSystem->setGravity(ccp(0,0));
+		fireSystem->setPosVar(ccp(1,1));
+		fireSystem->setLife(0.1f);
+		fireSystem->setLifeVar(0.05f);
+		fireSystem->setEmissionRate(fireSystem->getTotalParticles() / (fireSystem->getLife() * 2));
+		fireSystem->setStartSize(m_pEmitter->getStartSize()/2);
+		fireSystem->setPosition(ccp(0, 0 - fireSystem->getStartSize()));
+
+		m_pEmitter->addChild(fireSystem, 1);
 
 		m_pSprite->addChild(m_pEmitter, -1);
 	}
@@ -304,6 +315,8 @@ bool Obstacle::resetSlow()
 
 	int screenWidth = visibleSize.width + origin.x;
 	int screenHeight = visibleSize.height + origin.y;
+
+	this->setName(NAME_SLOW);
 
 	int startY = rand()  % (screenHeight/2);
 

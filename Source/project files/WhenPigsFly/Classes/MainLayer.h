@@ -6,6 +6,7 @@
 class Object;
 class Player;
 class GLESDebugDraw;
+class CustomContactListener;
 
 class MainLayer : public cocos2d::CCLayer
 {
@@ -23,6 +24,9 @@ private:
 
 	//Debug renderer for Box2D
 	GLESDebugDraw* m_pDebugRenderer;
+
+	// Contact listener for collision
+	CustomContactListener* m_pContactListener;
 
 	//TEMP Obstacle testing
 	float m_TimePassed;

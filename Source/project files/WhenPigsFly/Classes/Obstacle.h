@@ -16,6 +16,11 @@
 #define MED_FILENAME		"Obstacles/MedObt.png"
 #define SLOW_FILENAME		"Obstacles/SlowObt.png"
 
+//Default names
+#define NAME_FAST			"FastObt"
+#define NAME_MED			"MedObt"
+#define NAME_SLOW			"SlowObt"
+
 //Tag for the action that will determine when the obstacle is done
 #define TAG_OBSTACLE_DONE	1
 
