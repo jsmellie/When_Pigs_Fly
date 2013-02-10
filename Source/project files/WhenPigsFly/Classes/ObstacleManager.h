@@ -42,6 +42,9 @@ public:
 	// Checks to see if any of the obstacles are off the edge of the screen
 	void update(float delta);
 
+	// There has been a colission with the player
+	void collisionWithPlayer(Obstacle* obstacle);
+
 };
 
 #endif

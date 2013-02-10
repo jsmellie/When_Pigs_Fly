@@ -139,6 +139,7 @@ void MainLayer::InitObjects()
 	//Creation of test parallax objects
 	ParallaxObject* closeParallax = ParallaxObject::create("Backgrounds/Fields-Close.png", -2);
 	ParallaxObject* mediumParallax = ParallaxObject::create("Backgrounds/Forest-Medium.png", -6);
+	ParallaxObject* cloudsParallax = ParallaxObject::create("Backgrounds/Bunched-Clouds.png", -20);
 	CCSprite* sky = CCSprite::create("Backgrounds/Sunset-Sky.png");
 
 	sky->setPositionY(sky->getPositionY() + sky->getContentSize().height/2);
@@ -146,6 +147,7 @@ void MainLayer::InitObjects()
 
 	this->addChild(closeParallax, -1);
 	this->addChild(mediumParallax, -2);
+	this->addChild(cloudsParallax, -9);
 	this->addChild(sky, -10);
 
 	//TEST OBSTACLE MANAGER
@@ -207,6 +209,33 @@ void MainLayer::update(float delta)
 		fireExplosion->setEndColorVar(endColor);
 
 		m_pPlayer->addChild(fireExplosion, 10);
+
+		CCParticleSystem* smokeExplosion = CCParticleExplosion::createWithTotalParticles(200);
+
+		smokeExplosion->setTexture(CCTextureCache::sharedTextureCache()->addImage(SMOKE_FILENAME));
+
+		smokeExplosion->setGravity(ccp(0, 100));
+		
+		smokeExplosion->setPosition(ccp(0,0));
+		smokeExplosion->setLife(1.0f);
+		smokeExplosion->setLifeVar(0.1f);
+
+        startColor.r = 0.6f;
+        startColor.g = 0.6f;
+        startColor.b = 0.6f;
+        startColor.a = 1.0f;
+
+        endColor.r = 0.0f;
+        endColor.g = 0.0f;
+        endColor.b = 0.0f;
+        endColor.a = 0.0f;
+
+		smokeExplosion->setStartColor(startColor);
+		smokeExplosion->setStartColorVar(endColor);
+		smokeExplosion->setEndColor(endColor);
+		smokeExplosion->setEndColorVar(endColor);
+
+		m_pPlayer->addChild(smokeExplosion, 8);
 	}
 
 	m_pContactListener->m_Contacts.clear();
