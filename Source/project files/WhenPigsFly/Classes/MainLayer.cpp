@@ -290,13 +290,3 @@ void MainLayer::ccTouchesEnded (CCSet *pTouches, CCEvent *pEvent)
 {
 	m_pPlayer->TouchEnded();
 }
-
-
-void MainLayer::menuCloseCallback(CCObject* pSender)
-{
-    CCDirector::sharedDirector()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-}

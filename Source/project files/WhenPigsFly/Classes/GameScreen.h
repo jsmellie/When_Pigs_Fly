@@ -24,43 +24,39 @@ private:
 	//Layer that will contain all paralax & background objects
 	DetailLayer* m_pBackground;
 
-	//Layer that will contain all foreground objects
-	DetailLayer* m_pForeground;
-
 	//Variable for the games gravity
 	b2Vec2 m_vGravity;
 
 	// Methods
 	// --------------------
-public:
 
-	//Function to initialize everything
-	virtual bool init();
+	// Getters and setter
+public:
 
 	//Get for m_pInstance
 	static GameScreen* getInstance();
-
-	//Sets each respective pointer to the proper layer
-	virtual void getLayers(cocos2d::CCLayer* background, cocos2d::CCLayer* main, cocos2d::CCLayer* foreground);
-
+	
 	//Get's the background layer
-	//virtual cocos2d::DetailLayer* getBackground();
+	//virtual DetailLayer* getBackground();
 
 	//Get's the main layer
 	virtual MainLayer* getMain();
 
-	void draw();
-	
-	//Get's the foreground layer
-	//virtual cocos2d::DetailLayer* getForeground();
+	//Sets each respective pointer to the proper layer
+	virtual void getLayers(cocos2d::CCLayer* background, cocos2d::CCLayer* main);
 
 	// Getter for m_vGravity
 	virtual b2Vec2 getGravity();
 
+	// Gameloop, creation and destruction
+public:
 	//Auto-creates the "create()" function for this object and makes it autorelease.
 	CREATE_FUNC(GameScreen);
 
+	//Function to initialize everything
+	virtual bool init();
 
+	virtual ~GameScreen();
 };
 
 #endif // __GAME_SCREEN_H__

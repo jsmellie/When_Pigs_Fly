@@ -64,9 +64,6 @@ public:
 	//Override input callback functions
 	virtual void ccTouchesBegan (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 	virtual void ccTouchesEnded (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-    
-    // a selector callback
-    void menuCloseCallback(CCObject* pSender);
 };
 
 #endif // __MAIN_LAYER_H__

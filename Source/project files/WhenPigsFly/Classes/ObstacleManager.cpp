@@ -170,5 +170,12 @@ void ObstacleManager::collisionWithPlayer(Obstacle* obstacle)
 
 		this->addChild(featherExplosion, 10);
 	}
-	else if
+	else if(obstacle->getType() == MED_OBSTACLE)
+	{
+
+	}
+	else
+	{
+
+	}
 }

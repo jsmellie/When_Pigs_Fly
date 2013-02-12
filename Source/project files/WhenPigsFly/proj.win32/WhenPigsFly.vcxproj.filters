@@ -68,6 +68,9 @@
     <ClCompile Include="..\Classes\CustomContactListener.cpp">
       <Filter>Classes\Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameOverScreen.cpp">
+      <Filter>Classes\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\NameDefines.h">
       <Filter>Classes\Helper Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameOverScreen.h">
+      <Filter>Classes\Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
