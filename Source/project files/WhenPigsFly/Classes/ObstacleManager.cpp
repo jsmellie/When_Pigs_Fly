@@ -123,3 +123,52 @@ void ObstacleManager::update(float delta)
 		}
 	}
 }
+
+void ObstacleManager::collisionWithPlayer(Obstacle* obstacle)
+{
+	if(obstacle->getType() == FAST_OBSTACLE)
+	{
+		//obstacle->dormant();
+
+		CCParticleSystem* featherExplosion = CCParticleExplosion::createWithTotalParticles(50);
+
+		featherExplosion->setStartSize(obstacle->getWidth() / 4);
+
+		featherExplosion->setPosition(obstacle->getPosition());
+		featherExplosion->setLife(1.0f);
+		featherExplosion->setLifeVar(-0.3f);
+
+		featherExplosion->setTexture(CCTextureCache::sharedTextureCache()->addImage(FEATHER_FILENAME));
+
+		ccColor4F startColor;// color of particles
+        startColor.r = 1.0f;
+        startColor.g = 0.0f;
+        startColor.b = 0.0f;
+        startColor.a = 1.0f;
+
+		ccColor4F endColor;
+        endColor.r = 1.0f;
+        endColor.g = 0.0f;
+        endColor.b = 0.0f;
+        endColor.a = 0.0f;
+
+		ccColor4F starVarColor;
+        starVarColor.r = -0.1f;
+        starVarColor.g = 0.7f;
+        starVarColor.b = 0.2f;
+        starVarColor.a = 0.0f;
+
+		featherExplosion->setStartColor(startColor);
+		featherExplosion->setEndColor(endColor);
+		featherExplosion->setStartColorVar(starVarColor);
+		featherExplosion->setEndColorVar(starVarColor);
+
+		featherExplosion->setStartSpin(0);
+		featherExplosion->setStartSpinVar(270);
+		featherExplosion->setEndSpin(1440);
+		featherExplosion->setEndSpinVar(360);
+
+		this->addChild(featherExplosion, 10);
+	}
+	else if
+}

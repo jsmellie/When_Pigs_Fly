@@ -14,6 +14,8 @@
 #include "Player.h"
 
 #define SMOKE_FILENAME			"Particles/smoke.png"
+#define FIRE_FILENAME			"Particles/fire.png"
+#define FEATHER_FILENAME		"Particles/feather.png"
 
 
 #endif

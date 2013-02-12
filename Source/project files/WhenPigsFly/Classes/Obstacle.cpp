@@ -14,7 +14,7 @@ bool Obstacle::reset()
 	case MED_OBSTACLE:
 		{
 			//resetMed();
-			resetFast();
+			resetSlow();
 			break;
 		}
 	case SLOW_OBSTACLE:
@@ -161,7 +161,7 @@ bool Obstacle::newFast()
 
 bool Obstacle::newMed()
 {
-	return newFast();
+	return newSlow();
 }
 
 bool Obstacle::newSlow()

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "Player.h"
 #include "Obstacle.h"
+#include "ObstacleManager.h"
 
 CustomContactListener::CustomContactListener() : m_Contacts() {}
 
