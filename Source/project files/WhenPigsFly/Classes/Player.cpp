@@ -219,3 +219,8 @@ void Player::TouchEnded()
 		m_pSprite->runAction(rotateTo);
 	}
 }
+
+void Player::hitDown()
+{
+
+}
