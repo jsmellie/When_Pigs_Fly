@@ -11,7 +11,8 @@ protected:
 	// Background layer
 	CCLayer* m_BackLayer;
 
-	// 
+	// Button layer
+	CCLayer* m_ButtonLayer;
 
 	
 	// Methods
@@ -20,7 +21,7 @@ protected:
 	// Getters and setters
 public:
 	// Returns the background layer
-
+	CCLayer* getBackLayer();
 
 	//Gameloop and creation functions
 public:
@@ -33,6 +34,9 @@ public:
     static GameOverScreen* createWithBackLayer(CCLayer* backLayer);
 	// Init with a passed layer
 	bool initWithBackLayer(CCLayer* backLayer);
+
+	// Initialize the button layer
+	bool initButtonLayer();
 
 
 	//Button callback functions

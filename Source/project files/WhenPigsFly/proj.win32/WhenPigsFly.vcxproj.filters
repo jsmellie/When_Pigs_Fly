@@ -124,5 +124,8 @@
     <ClInclude Include="..\Classes\GameOverScreen.h">
       <Filter>Classes\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\FilenameDefines.h">
+      <Filter>Classes\Helper Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

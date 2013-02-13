@@ -1,8 +1,8 @@
 #include "GameOverScreen.h"
 
-CCLayer* GameOverScreen::getLayer()
+CCLayer* GameOverScreen::getBackLayer()
 {
-	return m_Layer;
+	return m_BackLayer;
 }
 
 GameOverScreen* GameOverScreen::create()
@@ -26,9 +26,11 @@ bool GameOverScreen::init()
 		return false;
 	}
 
-	m_Layer = CCLayer::create();
+	m_BackLayer = NULL;//CCLayer::create();
 
-	this->addChild(m_Layer);
+	m_ButtonLayer = CCLayer::create();
+
+	this->addChild(m_ButtonLayer);
 
 	return true;
 }
@@ -54,11 +56,32 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 		return false;
 	}
 
-	m_Layer = backLayer;
-
-	this->addChild(m_Layer);
+	m_BackLayer = NULL;
+	m_ButtonLayer = NULL;
 
 	return true;
+}
+
+bool GameOverScreen::initButtonLayer()
+{
+	// Initialization of button layer
+	m_ButtonLayer = CCLayer::create();
+
+	// Creation of the replay button
+	CCMenuItemImage* pReplay = CCMenuItemImage::create(REPLAY_FILENAME, REPLAY_FILENAME, m_ButtonLayer, menu_selector(GameOverScreen::playAgainCallback));
+
+	CCMenuItemImage* pMainMenu = NULL;
+
+	CCMenuItemImage* pHighscores = NULL;
+
+	// Menu object that holds the buttons
+	CCMenu* pMenu = CCMenu::create(pReplay, pMainMenu, pHighscores, NULL);
+
+	pMenu->setPosition(CCPointZero);
+
+	m_ButtonLayer->addChild(pMenu, 1);
+
+	return false;
 }
 
 void GameOverScreen::mainMenuCallback(CCObject* pSender)

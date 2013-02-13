@@ -128,6 +128,7 @@
     <ClInclude Include="..\Classes\CustomContactListener.h" />
     <ClInclude Include="..\Classes\DetailLayer.h" />
     <ClInclude Include="..\Classes\CommonHeader.h" />
+    <ClInclude Include="..\Classes\FilenameDefines.h" />
     <ClInclude Include="..\Classes\GameOverScreen.h" />
     <ClInclude Include="..\Classes\GameScreen.h" />
     <ClInclude Include="..\Classes\GLES-Render.h" />
