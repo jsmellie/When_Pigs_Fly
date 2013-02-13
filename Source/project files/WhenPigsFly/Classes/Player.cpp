@@ -193,7 +193,7 @@ void Player::update(float delta)
 	{
 		if(getActionByTag(TAG_PLAYER_CRASH) == NULL)
 		{
-			int bp = 0;
+			CCDirector::sharedDirector()->end();
 		}
 	}
 }

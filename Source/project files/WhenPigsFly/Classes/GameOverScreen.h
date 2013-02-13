@@ -32,10 +32,13 @@ public:
 	//Button callback functions
 public:
 	// Callback function for the exit button
-	void exitCallback(CCObject* pSender);
+	void mainMenuCallback(CCObject* pSender);
 
 	// Callback function for the play again button
 	void playAgainCallback(CCObject* pSender);
+
+	// Callback function for the highscore button
+	void highscoreCallback(CCObject* pSender);
 };
 
 #endif //__GAMEOVER_SCREEN_H__

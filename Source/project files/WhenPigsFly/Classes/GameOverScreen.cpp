@@ -21,11 +21,16 @@ bool GameOverScreen::init()
 	return true;
 }
 
-void GameOverScreen::exitCallback(CCObject* pSender)
+void GameOverScreen::mainMenuCallback(CCObject* pSender)
 {
     CCDirector::sharedDirector()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void GameOverScreen::playAgainCallback(CCObject* pSender)
+{
+
 }
