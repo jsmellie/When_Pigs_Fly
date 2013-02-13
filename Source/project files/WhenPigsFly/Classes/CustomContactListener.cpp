@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Obstacle.h"
 #include "ObstacleManager.h"
+#include "GameScreen.h"
+#include "MainLayer.h"
+#include "Player.h"
 
 CustomContactListener::CustomContactListener() : m_Contacts() {}
 
@@ -44,6 +47,8 @@ void CustomContactListener::BeginContact(b2Contact* contact)
 		if(AnalyseContact(fixtureAName, fixtureBName))
 		{
 			m_Contacts.push_back(customContact);
+
+			GameScreen::getInstance()->getMain()->getPlayer()->crash();
 		}
 	}
 }

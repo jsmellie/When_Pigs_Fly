@@ -166,6 +166,11 @@ void MainLayer::update(float delta)
 	//Simulate physics
 	m_pWorld->Step(delta, 10, 10);
 
+	/*if(m_pPlayer->shouldDeleteBody())
+	{
+		m_pPlayer->destroyBody();
+	}*/
+
 	m_TimePassed += delta;
 
 	if(m_TimePassed >= 1)
@@ -191,73 +196,10 @@ void MainLayer::update(float delta)
 		{
 			ObstacleManager::getInstance()->collisionWithPlayer((Obstacle*)(contact.fixtureB->GetBody()->GetUserData()));
 		}
-
-		//CCParticleSystem* fireExplosion = CCParticleExplosion::createWithTotalParticles(200);
-
-		//fireExplosion->setPosition(ccp(0,0));
-		//fireExplosion->setLife(0.5f);
-		//fireExplosion->setLifeVar(0.1f);
-
-		////fireExplosion->setTexture(CCTextureCache::sharedTextureCache()->addImage(FIRE_FILENAME));
-
-		//ccColor4F startColor;// color of particles
-  //      startColor.r = 1.0f;
-  //      startColor.g = 0.0f;
-  //      startColor.b = 0.0f;
-  //      startColor.a = 1.0f;
-
-		//ccColor4F endColor;
-  //      endColor.r = 1.0f;
-  //      endColor.g = 1.0f;
-  //      endColor.b = 1.0f;
-  //      endColor.a = 0.0f;
-
-		//ccColor4F starVarColor;
-  //      starVarColor.r = -0.1f;
-  //      starVarColor.g = 0.7f;
-  //      starVarColor.b = 0.2f;
-  //      starVarColor.a = -0.7f;
-
-		//ccColor4F endVarColor;
-  //      endVarColor.r = -0.1f;
-  //      endVarColor.g = -0.1f;
-  //      endVarColor.b = 0.05f;
-  //      endVarColor.a = 0.0f;
-
-
-		//fireExplosion->setStartColor(startColor);
-		//fireExplosion->setStartColorVar(starVarColor);
-		//fireExplosion->setEndColor(endColor);
-		//fireExplosion->setEndColorVar(endVarColor);
-
-		//m_pPlayer->addChild(fireExplosion, 10);
-
-		//CCParticleSystem* smokeExplosion = CCParticleExplosion::createWithTotalParticles(200);
-
-		//smokeExplosion->setTexture(CCTextureCache::sharedTextureCache()->addImage(SMOKE_FILENAME));
-
-		//smokeExplosion->setGravity(ccp(0, 100));
-		//
-		//smokeExplosion->setPosition(ccp(0,0));
-		//smokeExplosion->setLife(1.0f);
-		//smokeExplosion->setLifeVar(0.1f);
-
-  //      startColor.r = 0.6f;
-  //      startColor.g = 0.6f;
-  //      startColor.b = 0.6f;
-  //      startColor.a = 1.0f;
-
-  //      endColor.r = 0.0f;
-  //      endColor.g = 0.0f;
-  //      endColor.b = 0.0f;
-  //      endColor.a = 0.0f;
-
-		//smokeExplosion->setStartColor(startColor);
-		//smokeExplosion->setStartColorVar(endColor);
-		//smokeExplosion->setEndColor(endColor);
-		//smokeExplosion->setEndColorVar(endColor);
-
-		//m_pPlayer->addChild(smokeExplosion, 8);
+		else
+		{
+			ObstacleManager::getInstance()->collisionWithPlayer((Obstacle*)(contact.fixtureA->GetBody()->GetUserData()));
+		}
 	}
 
 	m_pContactListener->m_Contacts.clear();
