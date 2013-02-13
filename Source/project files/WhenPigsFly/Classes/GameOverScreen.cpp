@@ -5,6 +5,20 @@ CCLayer* GameOverScreen::getLayer()
 	return m_Layer;
 }
 
+GameOverScreen* GameOverScreen::create()
+{
+	GameOverScreen* pobGOScreen = new GameOverScreen();
+
+	if(pobGOScreen && pobGOScreen->init())
+	{
+		pobGOScreen->autorelease();
+		return pobGOScreen;
+	}
+
+	CC_SAFE_DELETE(pobGOScreen);
+	return NULL;
+}
+
 bool GameOverScreen::init()
 {
 	if(!CCScene::init())
@@ -16,7 +30,33 @@ bool GameOverScreen::init()
 
 	this->addChild(m_Layer);
 
+	return true;
+}
 
+GameOverScreen* GameOverScreen::createWithBackLayer(CCLayer* backLayer)
+{
+	GameOverScreen* pobGOScreen = new GameOverScreen();
+
+	if(pobGOScreen && pobGOScreen->initWithBackLayer(backLayer))
+	{
+		pobGOScreen->autorelease();
+		return pobGOScreen;
+	}
+
+	CC_SAFE_DELETE(pobGOScreen);
+	return NULL;
+}
+
+bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
+{
+	if(!CCScene::init())
+	{
+		return false;
+	}
+
+	m_Layer = backLayer;
+
+	this->addChild(m_Layer);
 
 	return true;
 }

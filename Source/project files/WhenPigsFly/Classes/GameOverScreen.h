@@ -8,7 +8,10 @@ class GameOverScreen : public CCScene
 	// Fields
 	// --------------------
 protected:
-	CCLayer* m_Layer;
+	// Background layer
+	CCLayer* m_BackLayer;
+
+	// 
 
 	
 	// Methods
@@ -16,17 +19,20 @@ protected:
 
 	// Getters and setters
 public:
-	// Returns the layer in use
-	CCLayer* getLayer();
+	// Returns the background layer
 
 
 	//Gameloop and creation functions
 public:
-	// Basic create function for GameOverScreen
-    CREATE_FUNC(GameOverScreen);
-
+	// Creating a basic object
+	static GameOverScreen* create();
 	// Basic init
 	bool init();
+
+	// Creating a new object with a background layer
+    static GameOverScreen* createWithBackLayer(CCLayer* backLayer);
+	// Init with a passed layer
+	bool initWithBackLayer(CCLayer* backLayer);
 
 
 	//Button callback functions
