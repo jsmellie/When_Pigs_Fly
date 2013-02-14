@@ -308,7 +308,6 @@ bool Obstacle::resetMed()
 	return true;
 }
 
-
 bool Obstacle::resetSlow()
 {
 	//Get values of the screen size and it's origin
@@ -420,4 +419,13 @@ bool Obstacle::dormant()
 
 Obstacle::~Obstacle()
 {
+	this->removeAllChildrenWithCleanup(true);
+
+	if(m_pPhysicsBody != NULL)
+	{
+		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
+		m_pPhysicsBody = NULL;
+	}
+
+	m_pEmitter = NULL;
 }

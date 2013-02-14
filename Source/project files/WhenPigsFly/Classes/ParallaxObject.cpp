@@ -211,7 +211,10 @@ void ParallaxObject::setZOrder(int zOrder)
 
 ParallaxObject::~ParallaxObject()
 {
-	CC_SAFE_RELEASE(m_pLoopingSprite);
+	this->removeAllChildrenWithCleanup(true);
+
+	CC_SAFE_RELEASE_NULL(m_pLoopingSprite);
+	CC_SAFE_RELEASE_NULL(m_pSprite);
 }
 
 bool ParallaxObject::basicSetup()

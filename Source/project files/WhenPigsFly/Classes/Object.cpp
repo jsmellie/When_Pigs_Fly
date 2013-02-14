@@ -55,6 +55,7 @@ bool Object::init()
 
 Object::~Object()
 {
-	if(m_pSprite != NULL)
-		m_pSprite->release();
+	this->removeAllChildrenWithCleanup(true);
+
+	CC_SAFE_RELEASE_NULL(m_pSprite);
 }

@@ -61,6 +61,7 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 
 	m_pBackLayer = NULL;
 	m_pButtonLayer = NULL;
+	m_IsFading = false;
 
 	m_pBackLayer = backLayer;
 
@@ -74,7 +75,7 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 
 GameOverScreen::~GameOverScreen()
 {
-
+	this->removeAllChildrenWithCleanup(true);
 }
 
 bool GameOverScreen::initButtonLayer()

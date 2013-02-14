@@ -8,9 +8,6 @@ USING_NS_CC;
 
 GameScreen* GameScreen::m_pInstance = NULL;
 
-
-
-
 void GameScreen::getLayers(CCLayer* background, CCLayer* main)
 {
 	background = NULL;//getBackground();
@@ -18,12 +15,10 @@ void GameScreen::getLayers(CCLayer* background, CCLayer* main)
 	main = getMain();
 }
 
-
 CCLayer* GameScreen::getBackground()
 {
 	return m_pBackground;
 }
-
 
 MainLayer* GameScreen::getMain()
 {
@@ -103,10 +98,11 @@ bool GameScreen::initBackground()
 
 GameScreen::~GameScreen()
 {
-	this->removeAllChildren();
+	this->removeAllChildrenWithCleanup(true);
 
-	m_pMain->release();
-	m_pBackground->release();
+	CC_SAFE_RELEASE_NULL(m_pMain);
+		
+	CC_SAFE_RELEASE_NULL(m_pBackground);
 
 	m_pInstance = NULL;
 }

@@ -19,9 +19,14 @@ b2Body* Player::getBody()
 
 Player::~Player()
 {
+	int bp = 0;
+
+	this->removeAllChildrenWithCleanup(true);
+
 	destroyBody();
 
-	m_pEmitter->release();
+	m_jVertJoint = NULL;
+	m_pEmitter = NULL;
 }
 
 bool Player::init()
@@ -51,6 +56,7 @@ bool Player::init()
 	m_pSprite = CCSprite::createWithTexture(spriteSheet->getTexture(), CCRectMake(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 
 	m_pSprite->setRotation(PLAYER_IDLE_ROT);
+	m_pSprite->retain();
 
 	//Add the sprite to the sprite sheet
 	spriteSheet->addChild(m_pSprite, 2);

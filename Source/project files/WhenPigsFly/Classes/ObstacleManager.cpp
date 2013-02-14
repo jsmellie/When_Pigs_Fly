@@ -123,7 +123,22 @@ void ObstacleManager::update(float delta)
 
 ObstacleManager::~ObstacleManager()
 {
+	this->removeAllChildrenWithCleanup(true);
+
+	for(int i = 0; i < m_ObstaclePool.size(); ++i)
+	{
+		//CC_SAFE_RELEASE_NULL(m_ObstaclePool[i]);
+	}
+
+	for(int i = 0; i < m_ActiveObstacles.size(); ++i)
+	{
+		//CC_SAFE_RELEASE_NULL(m_ActiveObstacles[i]);
+	}
+
 	m_pInstance = NULL;
+
+	m_ObstaclePool.clear();
+	m_ActiveObstacles.clear();
 }
 
 void ObstacleManager::collisionWithPlayer(Obstacle* obstacle)

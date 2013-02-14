@@ -189,7 +189,7 @@ void MainLayer::update(float delta)
 
 MainLayer::~MainLayer()
 {
-	this->removeAllChildren();
+	this->removeAllChildrenWithCleanup(true);
 
 	m_pWorld->DestroyBody(m_pLevelBody);
 
