@@ -5,7 +5,6 @@
 #include "CommonHeader.h"
 
 class MainLayer;
-class DetailLayer;
 
 //TODO: Think of a better name then DetailLayer that can mean both foreground and background
 
@@ -22,7 +21,7 @@ private:
 	MainLayer* m_pMain;
 
 	//Layer that will contain all paralax & background objects
-	DetailLayer* m_pBackground;
+	CCLayer* m_pBackground;
 
 	//Variable for the games gravity
 	b2Vec2 m_vGravity;
@@ -37,7 +36,7 @@ public:
 	static GameScreen* getInstance();
 	
 	//Get's the background layer
-	//virtual DetailLayer* getBackground();
+	virtual CCLayer* getBackground();
 
 	//Get's the main layer
 	virtual MainLayer* getMain();
@@ -56,7 +55,14 @@ public:
 	//Function to initialize everything
 	virtual bool init();
 
+	// Create background layer
+	virtual bool initBackground();
+
 	virtual ~GameScreen();
+
+	// Other usefull functions
+public:
+	virtual bool releaseBackground();
 };
 
 #endif // __GAME_SCREEN_H__

@@ -19,8 +19,6 @@ ObstacleManager* ObstacleManager::getInstance()
 	{
 		m_pInstance->autorelease();
 
-		m_pInstance->retain();
-
 		return m_pInstance;
 	}
 	CC_SAFE_DELETE(m_pInstance);
@@ -35,7 +33,6 @@ bool ObstacleManager::init()
 	}
 
 	m_pMainLayer = GameScreen::getInstance()->getMain();
-	CC_SAFE_RETAIN(m_pMainLayer);
 
 	this->scheduleUpdate();
 
@@ -122,6 +119,11 @@ void ObstacleManager::update(float delta)
 			m_ObstaclePool.push_back(obstacle);
 		}
 	}
+}
+
+ObstacleManager::~ObstacleManager()
+{
+	m_pInstance = NULL;
 }
 
 void ObstacleManager::collisionWithPlayer(Obstacle* obstacle)

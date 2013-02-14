@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "Object.h"
 #include "GameScreen.h"
-#include "ParallaxObject.h"
 #include "GLES-Render.h"
 #include "ObstacleManager.h"
 #include "CustomContactListener.h"
@@ -136,20 +135,6 @@ void MainLayer::InitObjects()
 
 	this->addChild(m_pPlayer, 1);
 
-	//Creation of test parallax objects
-	ParallaxObject* closeParallax = ParallaxObject::create("Backgrounds/Fields-Close.png", -2);
-	ParallaxObject* mediumParallax = ParallaxObject::create("Backgrounds/Forest-Medium.png", -6);
-	ParallaxObject* cloudsParallax = ParallaxObject::create("Backgrounds/Bunched-Clouds.png", -20);
-	CCSprite* sky = CCSprite::create("Backgrounds/Sunset-Sky.png");
-
-	sky->setPositionY(sky->getPositionY() + sky->getContentSize().height/2);
-	sky->setPositionX(sky->getPositionX() + sky->getContentSize().width/2);
-
-	this->addChild(closeParallax, -1);
-	this->addChild(mediumParallax, -2);
-	this->addChild(cloudsParallax, -9);
-	this->addChild(sky, -10);
-
 	//TEST OBSTACLE MANAGER
 	ObstacleManager* testOM = ObstacleManager::getInstance();
 
@@ -158,18 +143,15 @@ void MainLayer::InitObjects()
 
 void MainLayer::update(float delta)
 {
+	// If objects aren't initialized
 	if(m_pPlayer == NULL || m_pWorld == NULL || m_pLevelBody == NULL || m_pDebugRenderer == NULL)
 	{
+		// Initialize all objects
 		InitObjects();
 	}
 
 	//Simulate physics
 	m_pWorld->Step(delta, 10, 10);
-
-	/*if(m_pPlayer->shouldDeleteBody())
-	{
-		m_pPlayer->destroyBody();
-	}*/
 
 	m_TimePassed += delta;
 
@@ -203,6 +185,17 @@ void MainLayer::update(float delta)
 	}
 
 	m_pContactListener->m_Contacts.clear();
+}
+
+MainLayer::~MainLayer()
+{
+	this->removeAllChildren();
+
+	m_pWorld->DestroyBody(m_pLevelBody);
+
+	delete m_pWorld;
+
+	m_pPlayer->release();
 }
 
 void MainLayer::draw()

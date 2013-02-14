@@ -61,6 +61,8 @@ public:
 	// Draw function, used for physics debug
 	virtual void draw();
 
+	virtual ~MainLayer();
+
 	//Override input callback functions
 	virtual void ccTouchesBegan (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 	virtual void ccTouchesEnded (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);

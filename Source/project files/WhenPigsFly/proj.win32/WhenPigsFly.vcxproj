@@ -109,7 +109,6 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CustomContactListener.cpp" />
-    <ClCompile Include="..\Classes\DetailLayer.cpp" />
     <ClCompile Include="..\Classes\GameOverScreen.cpp" />
     <ClCompile Include="..\Classes\GameScreen.cpp" />
     <ClCompile Include="..\Classes\GLES-Render.cpp" />
@@ -126,7 +125,6 @@
     <ClInclude Include="..\Classes\AppMacros.h" />
     <ClInclude Include="..\Classes\Class Template.h" />
     <ClInclude Include="..\Classes\CustomContactListener.h" />
-    <ClInclude Include="..\Classes\DetailLayer.h" />
     <ClInclude Include="..\Classes\CommonHeader.h" />
     <ClInclude Include="..\Classes\FilenameDefines.h" />
     <ClInclude Include="..\Classes\GameOverScreen.h" />

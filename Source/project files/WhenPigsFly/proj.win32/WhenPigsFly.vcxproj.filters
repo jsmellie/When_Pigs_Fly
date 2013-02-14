@@ -50,9 +50,6 @@
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>Classes\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\DetailLayer.cpp">
-      <Filter>Classes\Layers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GLES-Render.cpp">
       <Filter>Classes\Helper Files</Filter>
     </ClCompile>
@@ -96,9 +93,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Object.h">
       <Filter>Classes\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\DetailLayer.h">
-      <Filter>Classes\Layers</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GLES-Render.h">
       <Filter>Classes\Helper Files</Filter>

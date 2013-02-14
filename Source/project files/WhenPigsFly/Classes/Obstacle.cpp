@@ -245,6 +245,8 @@ bool Obstacle::resetFast()
 	obstacleDef.userData = this;
 
 	// Initialize the physics body
+	CCLayer* main = GameScreen::getInstance()->getMain();
+
 	m_pPhysicsBody = GameScreen::getInstance()->getMain()->getWorld()->CreateBody(&obstacleDef);
 
 	// Set up the shape of the box

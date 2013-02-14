@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameScreen.h"
 #include "MainLayer.h"
+#include "GameOverScreen.h"
 
 void Player::setSprite(CCSprite* sprite) {}
 
@@ -18,6 +19,9 @@ b2Body* Player::getBody()
 
 Player::~Player()
 {
+	destroyBody();
+
+	m_pEmitter->release();
 }
 
 bool Player::init()
@@ -41,7 +45,7 @@ bool Player::init()
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	//Load in the sprite sheet
-	CCSpriteBatchNode* spriteSheet = CCSpriteBatchNode::create(PLAYER_SPRITE);
+	CCSpriteBatchNode* spriteSheet = CCSpriteBatchNode::create(PLAYER_FILENAME);
 
 	//Set up the sprite itself
 	m_pSprite = CCSprite::createWithTexture(spriteSheet->getTexture(), CCRectMake(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
@@ -159,6 +163,7 @@ void Player::update(float delta)
 			// If the player is moving too fast, put on damping
 			float32 speed = m_pPhysicsBody->GetLinearVelocity().Length();
 
+			// If the player is going too fast, put damping on the physics body to slow the acceleration
 			if(speed > PLAYER_MAXSPEED)
 			{
 				m_pPhysicsBody->SetLinearDamping(0.5f);
@@ -184,16 +189,34 @@ void Player::update(float delta)
 				//Set the physics rotation to the sprite rotation
 				m_pPhysicsBody->SetTransform(m_pPhysicsBody->GetPosition(), spriteRot);
 			}
+
+			// Get the physics body's position
 			b2Vec2 bodyPos = m_pPhysicsBody->GetPosition();
 
+			// Set the position of the player to the physics body's position
 			this->setPosition(bodyPos.x * PTM_RATIO, bodyPos.y * PTM_RATIO);
 		}
 	}
 	else
 	{
+		// Cehck to see if the action to move players off screen is finished
 		if(getActionByTag(TAG_PLAYER_CRASH) == NULL)
 		{
-			CCDirector::sharedDirector()->end();
+			GameScreen* game = GameScreen::getInstance();
+
+			CCLayer* backLayer = game->getBackground();
+			backLayer->retain();
+
+			game->releaseBackground();
+
+			// Create a game over screen and set it's back layer to the background layer
+			GameOverScreen* gameOver = GameOverScreen::createWithBackLayer(GameScreen::getInstance()->getBackground());
+
+			CCDirector::sharedDirector()->replaceScene(gameOver);
+
+			backLayer->release();
+
+			//CCDirector::sharedDirector()->end();
 		}
 	}
 }

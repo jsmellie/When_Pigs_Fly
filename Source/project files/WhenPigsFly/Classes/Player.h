@@ -7,7 +7,6 @@
 //Player sprite information (Should make it load from a file)
 #define PLAYER_WIDTH			104
 #define PLAYER_HEIGHT			41
-#define PLAYER_SPRITE			"Player.png"
 #define PLAYER_FRAME_COUNT		4
 #define PLAYER_DELAY			0.05f
 #define PLAYER_PADDING			2

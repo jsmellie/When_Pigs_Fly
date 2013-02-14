@@ -26,6 +26,8 @@ public:
 	// Base Init function
 	bool init();
 
+	virtual ~ParallaxObject();
+
 	// Create with a filename
 	static ParallaxObject* create(const char* fileName);
 	// Init with a const filename
@@ -47,9 +49,6 @@ public:
 
 	//Overload the setter for zOrder
 	virtual void setZOrder(int nZOrder);
-
-	// Deconstructor
-	virtual ~ParallaxObject();
 
 protected:
 	// Initial init, no matter what the input

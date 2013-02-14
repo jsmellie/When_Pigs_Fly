@@ -1,8 +1,9 @@
 #include "GameOverScreen.h"
+#include "GameScreen.h"
 
 CCLayer* GameOverScreen::getBackLayer()
 {
-	return m_BackLayer;
+	return m_pBackLayer;
 }
 
 GameOverScreen* GameOverScreen::create()
@@ -26,11 +27,13 @@ bool GameOverScreen::init()
 		return false;
 	}
 
-	m_BackLayer = NULL;//CCLayer::create();
+	m_pBackLayer = NULL;//CCLayer::create();
+	m_pButtonLayer = NULL;
+	m_IsFading = false;
 
-	m_ButtonLayer = CCLayer::create();
+	this->addChild(m_pButtonLayer);
 
-	this->addChild(m_ButtonLayer);
+	this->scheduleUpdate();
 
 	return true;
 }
@@ -56,19 +59,38 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 		return false;
 	}
 
-	m_BackLayer = NULL;
-	m_ButtonLayer = NULL;
+	m_pBackLayer = NULL;
+	m_pButtonLayer = NULL;
+
+	m_pBackLayer = backLayer;
+
+	initButtonLayer();
+
+	this->addChild(m_pBackLayer, -1);
+	this->addChild(m_pButtonLayer, 0);
 
 	return true;
 }
 
+GameOverScreen::~GameOverScreen()
+{
+
+}
+
 bool GameOverScreen::initButtonLayer()
 {
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
 	// Initialization of button layer
-	m_ButtonLayer = CCLayer::create();
+	m_pButtonLayer = CCLayer::create();
+
+	// Set touch event's on for this layer
+	m_pButtonLayer->setTouchEnabled(true);
 
 	// Creation of the replay button
-	CCMenuItemImage* pReplay = CCMenuItemImage::create(REPLAY_FILENAME, REPLAY_FILENAME, m_ButtonLayer, menu_selector(GameOverScreen::playAgainCallback));
+	CCMenuItemImage* pReplay = CCMenuItemImage::create(REPLAY_FILENAME, REPLAY_FILENAME, m_pButtonLayer, menu_selector(GameOverScreen::playAgainCallback));
+	pReplay->setPosition(visibleSize.width/2 + origin.x,visibleSize.height/2 + origin.y);
 
 	CCMenuItemImage* pMainMenu = NULL;
 
@@ -79,9 +101,17 @@ bool GameOverScreen::initButtonLayer()
 
 	pMenu->setPosition(CCPointZero);
 
-	m_ButtonLayer->addChild(pMenu, 1);
+	m_pButtonLayer->addChild(pMenu, 1);
 
 	return false;
+}
+
+void GameOverScreen::update(float delta)
+{
+	/*if(this->getActionByTag(TAG_GAMEOVER_FADE) == NULL && isFading())
+	{
+
+	}*/
 }
 
 void GameOverScreen::mainMenuCallback(CCObject* pSender)
@@ -95,5 +125,7 @@ void GameOverScreen::mainMenuCallback(CCObject* pSender)
 
 void GameOverScreen::playAgainCallback(CCObject* pSender)
 {
+	CCScene* game = GameScreen::getInstance();
 
+	CCDirector::sharedDirector()->replaceScene(game);
 }

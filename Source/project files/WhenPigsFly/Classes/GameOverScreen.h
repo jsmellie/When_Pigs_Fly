@@ -3,16 +3,21 @@
 
 #include "CommonHeader.h"
 
+#define TAG_GAMEOVER_FADE 9
+
 class GameOverScreen : public CCScene
 {
 	// Fields
 	// --------------------
 protected:
 	// Background layer
-	CCLayer* m_BackLayer;
+	CCLayer* m_pBackLayer;
 
 	// Button layer
-	CCLayer* m_ButtonLayer;
+	CCLayer* m_pButtonLayer;
+
+	// Bool for if the screen is fading
+	bool m_IsFading;
 
 	
 	// Methods
@@ -22,6 +27,10 @@ protected:
 public:
 	// Returns the background layer
 	CCLayer* getBackLayer();
+
+protected:
+	//Returns a bool for if the screen is fading out
+	bool isFading();
 
 	//Gameloop and creation functions
 public:
@@ -35,8 +44,14 @@ public:
 	// Init with a passed layer
 	bool initWithBackLayer(CCLayer* backLayer);
 
+	// Decontructor
+	virtual ~GameOverScreen();
+
 	// Initialize the button layer
 	bool initButtonLayer();
+
+	// Updates the layer
+	virtual void update(float delta);
 
 
 	//Button callback functions
