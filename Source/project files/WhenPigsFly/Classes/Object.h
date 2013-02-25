@@ -42,6 +42,9 @@ public:
 	//Init function
 	bool init();
 
+	// Called when ever the object enters the scene
+	virtual void onEnter();
+
 	//Base deconstructor
 	virtual ~Object();
 

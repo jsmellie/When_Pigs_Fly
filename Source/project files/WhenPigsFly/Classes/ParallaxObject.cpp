@@ -108,6 +108,15 @@ bool ParallaxObject::initWithFileName(const char* fileName, int zOrder)
 	return true;
 }
 
+void ParallaxObject::onEnter()
+{
+	Object::onEnter();
+
+	int bp = 0;
+
+	bool running = isRunning();
+}
+
 void ParallaxObject::update(float delta)
 {
 	// float to hold m_pLoopingSprite's current X pos

@@ -404,6 +404,8 @@ void CCNode::setContentSize(const CCSize & size)
 // isRunning getter
 bool CCNode::isRunning()
 {
+	bool* temp = &m_bRunning;
+
     return m_bRunning;
 }
 

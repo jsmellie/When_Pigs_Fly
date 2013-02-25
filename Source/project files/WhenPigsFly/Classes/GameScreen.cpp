@@ -72,7 +72,6 @@ bool GameScreen::init()
 	//Add the layers as children
 	this->addChild(m_pMain, 0);
 	this->addChild(m_pBackground, -1);
-	//TODO: Add m_pBackground and m_pForeground as children
 
 	return true;
 }

@@ -53,8 +53,11 @@ public:
     virtual bool init();
 
 	// Initialize default objects for this layer;
-	virtual void InitObjects();
+	virtual void initObjects();
 
+	// Initialize the player.  Not done in initObjects because it is only done after the transitions are done
+	virtual void initPlayer();
+	
 	// Activation of the obstacles
 	virtual void activateObstacles();
 

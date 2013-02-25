@@ -46,11 +46,15 @@ bool Object::init()
 	m_pSprite = 0;
 	m_Name = 0;
 
-	//Add the update func to the schedule
 	this->scheduleUpdate();
 	m_isUpdating = true;
 
 	return true;
+}
+
+void Object::onEnter()
+{
+	CCNode::onEnter();
 }
 
 Object::~Object()

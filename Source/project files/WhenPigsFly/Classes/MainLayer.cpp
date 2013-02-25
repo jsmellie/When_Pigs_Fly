@@ -52,7 +52,7 @@ bool MainLayer::init()
     return true;
 }
 
-void MainLayer::InitObjects()
+void MainLayer::initObjects()
 {
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -108,15 +108,16 @@ void MainLayer::InitObjects()
 
 	//Adding the top fixture to the level's physics body
 	m_pLevelBody->CreateFixture(&topShapeDef);
+}
 
+void MainLayer::initPlayer()
+{
 	//Initialization of the player
 	m_pPlayer = Player::create();
 	m_pPlayer->retain();
 
+	// Add the player as a child
 	this->addChild(m_pPlayer, 1);
-
-	//TEMP ACTION
-	activateObstacles(); 
 }
 
 void MainLayer::activateObstacles()
@@ -215,25 +216,28 @@ void MainLayer::onEnter()
 	CCLayer::onEnter();
 
 	// If objects aren't initialized
-	if(m_pPlayer == 0 || m_pWorld == 0 || m_pLevelBody == 0 || m_pDebugRenderer == 0)
+	if(m_pWorld == 0 || m_pLevelBody == 0 || m_pDebugRenderer == 0)
 	{
 		// Initialize all objects
-		InitObjects();
+		initObjects();
 	}
 }
 
 void MainLayer::onEnterTransitionDidFinish()
 {
-	int bp = 0;
+	CCLayer::onEnterTransitionDidFinish();
+
+	// If the player isn't initialized
+	if(m_pPlayer == 0)
+	{
+		// Initialize the player
+		initPlayer();
+	}
 }
 
 void MainLayer::onExit()
 {
-	int bp = 0;
-
-	bp += (int)m_TimePassed;
-
-	bp -= (int)m_TimePassed;
+	CCLayer::onExit();
 }
 
 //Input callbacks

@@ -38,6 +38,9 @@ public:
 	// Init with a const filename
 	bool initWithFileName(const char* fileName, int depth);
 
+	// Called every time the object enters the frame.  Called at the START of transitions
+	virtual void onEnter();
+
 	// Update function
 	virtual void update(float delta);
 

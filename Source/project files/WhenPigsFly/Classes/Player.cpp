@@ -113,28 +113,33 @@ bool Player::init()
 		this->addChild(m_pEmitter, -1);
 	}
 
+	float introTime = 1.8f;
+
 	// Create the basic intro action
-	CCMoveTo* pMoveTo = CCMoveTo::create(1.2f, ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y));
-	CCEaseOut* moveEase = CCEaseOut::create(pMoveTo, 7);
+	CCMoveTo* pMoveTo = CCMoveTo::create(introTime, ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y));
+	CCEaseOut* moveEase = CCEaseOut::create(pMoveTo, 3);
 
 	CCCallFunc* pCallFunc = CCCallFunc::create(this, callfunc_selector(Player::initPhysics));
 
-	CCSequence* pSeq1 = CCSequence::createWithTwoActions(moveEase, pCallFunc);//CCDelayTime::create(0.2f));
+	CCSequence* pSeq1 = CCSequence::createWithTwoActions(moveEase, CCDelayTime::create(0.2f));
 
-	//MainLayer* main = GameScreen::getInstance()->getMain();
+	MainLayer* main = GameScreen::getInstance()->getMain();
 
-	//CCSequence* pSeq2 = CCSequence::createWithTwoActions(pCallFunc, CCCallFunc::create(main, callfunc_selector(MainLayer::activateObstacles)));
+	CCSequence* pSeq2 = CCSequence::createWithTwoActions(pCallFunc, CCCallFunc::create(main, callfunc_selector(MainLayer::activateObstacles)));
 
-	//CCSequence* pIntro = CCSequence::createWithTwoActions(pSeq1, pSeq2);
+	CCSequence* pIntro = CCSequence::createWithTwoActions(pSeq1, pSeq2);
+	pIntro->setTag(TAG_PLAYER_INTRO);
 
-	//pIntro->setTag(TAG_PLAYER_INTRO);
+	this->runAction(pIntro);
 
-	this->runAction(pSeq1);
+	float rotTime = 0.8f;
 
-	CCRotateTo* pRotate = CCRotateTo::create(1.2f, PLAYER_IDLE_ROT);
+	CCRotateTo* pRotate = CCRotateTo::create(rotTime, PLAYER_IDLE_ROT);
 	CCEaseSineOut* rotateEase = CCEaseSineOut::create(pRotate);
 
-	m_pSprite->runAction(rotateEase);
+	CCSequence* pRotSeq = CCSequence::createWithTwoActions(CCDelayTime::create(introTime - rotTime), rotateEase);
+
+	m_pSprite->runAction(pRotSeq);
 
 	return true;
 }
