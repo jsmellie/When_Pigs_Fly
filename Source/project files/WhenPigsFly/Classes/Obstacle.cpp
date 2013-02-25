@@ -41,7 +41,7 @@ Obstacle* Obstacle::create(int type)
 		return pobObstacle;
 	}
 	CC_SAFE_DELETE(pobObstacle);
-	return NULL;
+	return 0;
 }
 
 bool Obstacle::initWithType(int type)
@@ -51,10 +51,10 @@ bool Obstacle::initWithType(int type)
 		return false;
 	}
 
-	m_pPhysicsBody = NULL;
+	m_pPhysicsBody = 0;
 	m_Type = -1;
 	m_Speed = -1;
-	m_pEmitter = NULL;
+	m_pEmitter = 0;
 
 	return setType(type);
 }
@@ -63,11 +63,11 @@ void Obstacle::update(float delta)
 {
 	b2Vec2 currentPos(this->getPositionX() / PTM_RATIO, this->getPositionY() / PTM_RATIO);
 
-	CCAssert(m_pSprite != NULL, "Sprite was null");
+	CCAssert(m_pSprite != 0, "Sprite was null");
 
 	float angle = -1 * CC_DEGREES_TO_RADIANS(m_pSprite->getRotation());
 
-	b2Assert(m_pPhysicsBody != NULL, "Body was null");
+	b2Assert(m_pPhysicsBody != 0, "Body was null");
 
 	m_pPhysicsBody->SetTransform(currentPos, angle);
 }
@@ -113,7 +113,7 @@ bool Obstacle::setType(float type)
 
 int Obstacle::getWidth()
 {
-	if(m_pSprite != NULL)
+	if(m_pSprite != 0)
 	{
 		return m_pSprite->getContentSize().width;
 	}
@@ -123,7 +123,7 @@ int Obstacle::getWidth()
 
 int Obstacle::getHeight()
 {
-	if(m_pSprite != NULL)
+	if(m_pSprite != 0)
 	{
 		return m_pSprite->getContentSize().height;
 	}
@@ -231,7 +231,7 @@ bool Obstacle::resetFast()
 	CCMoveTo* moveTo = CCMoveTo::create(dist / m_Speed, end);
 	moveTo->setTag(TAG_OBSTACLE_DONE);
 
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
 	}
@@ -264,7 +264,7 @@ bool Obstacle::resetFast()
 	m_pPhysicsBody->CreateFixture(&obstacleFixture);
 
 	//Initialize the emitter
-	if(m_pEmitter == NULL)
+	if(m_pEmitter == 0)
 	{
 		m_pEmitter = CCParticleSmoke::createWithTotalParticles(200, getHeight() / 2);
 
@@ -349,13 +349,13 @@ bool Obstacle::resetSlow()
 
 	//CCArray* actionArray = CCArray::create(easeToMiddle, CCDelayTime::create(0.5f), easeToEnd);
 
-	CCSequence* movementSequence = (CCSequence*)CCSequence::create(easeToMiddle, CCDelayTime::create(0.5f), easeToEnd, NULL);
+	CCSequence* movementSequence = (CCSequence*)CCSequence::create(easeToMiddle, CCDelayTime::create(0.5f), easeToEnd, 0);
 	//CCSequence* movementSequence = CCSequence::createWithTwoActions(easeToMiddle, easeToEnd);
 	movementSequence->setTag(TAG_OBSTACLE_DONE);
 
 	this->runAction(movementSequence);
 	
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
 	}
@@ -396,16 +396,16 @@ bool Obstacle::resetSlow()
 
 bool Obstacle::dormant()
 {
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
-		m_pPhysicsBody = NULL;
+		m_pPhysicsBody = 0;
 	}
 
-	if(m_pEmitter != NULL)
+	if(m_pEmitter != 0)
 	{
 		m_pSprite->removeChild(m_pEmitter, true);
-		m_pEmitter = NULL;
+		m_pEmitter = 0;
 	}
 
 	if(m_isUpdating == true)
@@ -421,11 +421,11 @@ Obstacle::~Obstacle()
 {
 	this->removeAllChildrenWithCleanup(true);
 
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
-		m_pPhysicsBody = NULL;
+		m_pPhysicsBody = 0;
 	}
 
-	m_pEmitter = NULL;
+	m_pEmitter = 0;
 }

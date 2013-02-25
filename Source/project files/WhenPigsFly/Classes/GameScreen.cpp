@@ -6,11 +6,11 @@
 USING_NS_CC;
 
 
-GameScreen* GameScreen::m_pInstance = NULL;
+GameScreen* GameScreen::m_pInstance = 0;
 
 void GameScreen::getLayers(CCLayer* background, CCLayer* main)
 {
-	background = NULL;//getBackground();
+	background = 0;//getBackground();
 
 	main = getMain();
 }
@@ -27,7 +27,7 @@ MainLayer* GameScreen::getMain()
 
 GameScreen* GameScreen::getInstance()
 {
-	if(m_pInstance == NULL)
+	if(m_pInstance == 0)
 	{
 		GameScreen::create();
 	}
@@ -47,7 +47,7 @@ bool GameScreen::init()
 		return false;
 	}
 
-	if(m_pInstance != NULL)
+	if(m_pInstance != 0)
 	{
 		return false;
 	}
@@ -104,7 +104,7 @@ GameScreen::~GameScreen()
 		
 	CC_SAFE_RELEASE_NULL(m_pBackground);
 
-	m_pInstance = NULL;
+	m_pInstance = 0;
 }
 
 bool GameScreen::releaseBackground()

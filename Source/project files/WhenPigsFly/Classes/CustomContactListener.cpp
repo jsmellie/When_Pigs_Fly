@@ -15,16 +15,16 @@ void CustomContactListener::BeginContact(b2Contact* contact)
 {
 	CustomContact customContact = { contact->GetFixtureA(), contact->GetFixtureB()};
 
-	const char* fixtureAName = NULL;
-	const char* fixtureBName = NULL;
+	const char* fixtureAName = 0;
+	const char* fixtureBName = 0;
 
 	void* fixtureAUserData = customContact.fixtureA->GetBody()->GetUserData();
 
-	if(fixtureAUserData != NULL)
+	if(fixtureAUserData != 0)
 	{
 		Object* fixtureAObj = (Object*)fixtureAUserData;
 
-		if(fixtureAObj->getName() != NULL)
+		if(fixtureAObj->getName() != 0)
 		{
 			fixtureAName = fixtureAObj->getName();
 		}
@@ -32,17 +32,17 @@ void CustomContactListener::BeginContact(b2Contact* contact)
 
 	void* fixtureBUserData = customContact.fixtureB->GetBody()->GetUserData();
 
-	if(fixtureBUserData != NULL)
+	if(fixtureBUserData != 0)
 	{
 		Object* fixtureBObj = (Object*)fixtureBUserData;
 
-		if(fixtureBObj->getName() != NULL)
+		if(fixtureBObj->getName() != 0)
 		{
 			fixtureBName = fixtureBObj->getName();
 		}
 	}
 
-	if(fixtureAName != NULL && fixtureBName != NULL)
+	if(fixtureAName != 0 && fixtureBName != 0)
 	{
 		if(AnalyseContact(fixtureAName, fixtureBName))
 		{

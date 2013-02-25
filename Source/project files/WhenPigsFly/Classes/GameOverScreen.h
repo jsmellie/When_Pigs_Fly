@@ -5,6 +5,15 @@
 
 #define TAG_GAMEOVER_FADE 9
 
+enum GOTransition
+{
+	GONoTrans = 0,
+	GOIn,
+	GOToMainMenu,
+	GOReplay,
+	GOToHighscores
+};
+
 class GameOverScreen : public CCScene
 {
 	// Fields
@@ -16,9 +25,11 @@ protected:
 	// Button layer
 	CCLayer* m_pButtonLayer;
 
-	// Bool for if the screen is fading
-	bool m_IsFading;
+	// Menu object
+	CCMenu* m_pMenu;
 
+	// Enum that reprensets what the current fade state
+	GOTransition m_Transition;
 	
 	// Methods
 	// --------------------
@@ -29,8 +40,8 @@ public:
 	CCLayer* getBackLayer();
 
 protected:
-	//Returns a bool for if the screen is fading out
-	bool isFading();
+	// Set the transition
+	void setTransition(GOTransition transition);
 
 	//Gameloop and creation functions
 public:
@@ -64,6 +75,12 @@ public:
 
 	// Callback function for the highscore button
 	void highscoreCallback(CCObject* pSender);
+
+
+	// Helper functions
+protected:
+	// Re-activates the background layer so that the background still moves
+	virtual bool reactivateBack();
 };
 
 #endif //__GAMEOVER_SCREEN_H__

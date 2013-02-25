@@ -29,6 +29,7 @@
 #define TAG_PLAYER_IDLE			4
 #define TAG_PLAYER_ANI			1
 #define TAG_PLAYER_CRASH		2
+#define TAG_PLAYER_INTRO		5
 
 // Player's name
 #define NAME_PLAYER				"Player"
@@ -110,6 +111,9 @@ public:
 	virtual void destroyBody();
 
 protected:
+	//Initializes the physics body
+	virtual void initPhysics();
+
 	// Creates a fire explosion on the players current position
 	virtual void createFireExplosion();
 
@@ -121,6 +125,9 @@ protected:
 
 	// Creates the action sequence that show the player crashing
 	virtual void addCrashAction();
+
+	// Creates a game over menu and puts it ontop
+	virtual void gameOver();
 };
 
 #endif

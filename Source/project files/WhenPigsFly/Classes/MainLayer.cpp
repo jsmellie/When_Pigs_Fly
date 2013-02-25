@@ -34,38 +34,18 @@ bool MainLayer::init()
         return false;
     }
 
+	uint* ref = &m_uReference;
+
 	//Enable touch input for this layer
 	this->setTouchEnabled(true);
 
-	m_pPlayer = NULL;
-	m_pWorld = NULL;
-	m_pLevelBody = NULL;
-	m_pDebugRenderer = NULL;
+	//Set default values for all variables
+	m_pPlayer = 0;
+	m_pWorld = 0;
+	m_pLevelBody = 0;
+	m_pDebugRenderer = 0;
 	m_TimePassed = 0;
-	m_pContactListener = NULL;
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
-
-#pragma region DEFAULT STUFF
-
- //   // add a "close" icon to exit the progress. it's an autorelease object
-	//CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
- //                                       "CloseNormal.png",
- //                                       "CloseSelected.png",
- //                                       this,
- //                                       menu_selector(MainLayer::menuCloseCallback));
- //   
-	//pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
- //                               origin.y + pCloseItem->getContentSize().height/2));
-
- //   // create menu, it's an autorelease object
- //   CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
- //   pMenu->setPosition(CCPointZero);
- //   this->addChild(pMenu, 1);
-
-#pragma endregion
+	m_pContactListener = 0;
 
 	this->scheduleUpdate();
 
@@ -135,93 +115,135 @@ void MainLayer::InitObjects()
 
 	this->addChild(m_pPlayer, 1);
 
-	//TEST OBSTACLE MANAGER
-	ObstacleManager* testOM = ObstacleManager::getInstance();
+	//TEMP ACTION
+	activateObstacles(); 
+}
 
-	this->addChild(testOM, 0);
+void MainLayer::activateObstacles()
+{
+	this->addChild(ObstacleManager::getInstance());
 }
 
 void MainLayer::update(float delta)
 {
-	// If objects aren't initialized
-	if(m_pPlayer == NULL || m_pWorld == NULL || m_pLevelBody == NULL || m_pDebugRenderer == NULL)
-	{
-		// Initialize all objects
-		InitObjects();
-	}
-
 	//Simulate physics
-	m_pWorld->Step(delta, 10, 10);
+	this->m_pWorld->Step(delta, 10, 10);
 
 	m_TimePassed += delta;
 
+	// If the time passed is more then 1 second
 	if(m_TimePassed >= 1)
 	{
+		// Remove 1 second and spawn a new obstacle
 		m_TimePassed -= 1;
 		ObstacleManager::getInstance()->newObstacle();
 	}
 
-	//check contacts
+	// Get an iterator for the collision ocntacts
 	vector<CustomContact>::iterator pos;
 
-	vector<CustomContact>::iterator endPos = m_pContactListener->m_Contacts.end();
-
-	for(pos = m_pContactListener->m_Contacts.begin(); pos != endPos; ++pos)
+	// Loop through all contacts
+	for(pos = m_pContactListener->m_Contacts.begin(); pos != m_pContactListener->m_Contacts.end(); ++pos)
 	{
+		// Pointer to the current contact
 		CustomContact contact = *pos;
 
+#ifdef DEBUG
+		// If in debug, output a collision message
 		CCLog("Collision!!");
-
+#endif
+		// Reference to object a
 		Object* objA = (Object*)(contact.fixtureA->GetBody()->GetUserData());
 
+		// if object a is the player
 		if(objA->getName() == "Player")
 		{
+			// Tell obstacle manager that object b has collided with the player
 			ObstacleManager::getInstance()->collisionWithPlayer((Obstacle*)(contact.fixtureB->GetBody()->GetUserData()));
 		}
 		else
 		{
+			// Tell obstacle manager that object a has collided with the player
 			ObstacleManager::getInstance()->collisionWithPlayer((Obstacle*)(contact.fixtureA->GetBody()->GetUserData()));
 		}
 	}
 
+	// Clear the contact list because we've assest all the collisions
 	m_pContactListener->m_Contacts.clear();
-}
-
-MainLayer::~MainLayer()
-{
-	this->removeAllChildrenWithCleanup(true);
-
-	m_pWorld->DestroyBody(m_pLevelBody);
-
-	delete m_pWorld;
-
-	m_pPlayer->release();
 }
 
 void MainLayer::draw()
 {
-#if _DEBUG
-
+#ifdef _DEBUG
+	// Draw the layer properly
 	CCLayer::draw();
 
+	// Set the vertex attributes to be position only
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
+	// Push a new matrix onto the stack
     kmGLPushMatrix();
 
+	// Draw the debug data of the physics world
     m_pWorld->DrawDebugData();
 
+	// Pop the new matrix off the stack
     kmGLPopMatrix();
 
+	// Check for any GL errors
     CHECK_GL_ERROR_DEBUG();
 #endif
+}
+
+MainLayer::~MainLayer()
+{
+	// Clean up all the children
+	this->removeAllChildrenWithCleanup(true);
+
+	// Release the instance of the player
+	m_pPlayer->release();
+
+	// Destroy the collision bodies
+	m_pWorld->DestroyBody(m_pLevelBody);
+
+	// Delete the physics world
+	delete m_pWorld;
+}
+
+void MainLayer::onEnter()
+{
+	CCLayer::onEnter();
+
+	// If objects aren't initialized
+	if(m_pPlayer == 0 || m_pWorld == 0 || m_pLevelBody == 0 || m_pDebugRenderer == 0)
+	{
+		// Initialize all objects
+		InitObjects();
+	}
+}
+
+void MainLayer::onEnterTransitionDidFinish()
+{
+	int bp = 0;
+}
+
+void MainLayer::onExit()
+{
+	int bp = 0;
+
+	bp += (int)m_TimePassed;
+
+	bp -= (int)m_TimePassed;
 }
 
 //Input callbacks
 void MainLayer::ccTouchesBegan (CCSet *pTouches, CCEvent *pEvent)
 {
+	// Call the player's touch begin function
 	m_pPlayer->TouchBegin();
 }
 void MainLayer::ccTouchesEnded (CCSet *pTouches, CCEvent *pEvent)
 {
+	// Call the player's touch end function
 	m_pPlayer->TouchEnded();
 }

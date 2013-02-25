@@ -28,7 +28,7 @@ private:
 	// Contact listener for collision
 	CustomContactListener* m_pContactListener;
 
-	//TEMP Obstacle testing
+	// Float that contains the time that has passed since the last obstacle was spawned
 	float m_TimePassed;
 	
 	// Methods
@@ -48,12 +48,15 @@ public:
 	// Gameloop and creation functions
 public:
     // Auto implements the basic "create()" function.
-	// this function requires "init()" to be made.
+	// this function requires an "init()".
     CREATE_FUNC(MainLayer);
     virtual bool init();
 
 	// Initialize default objects for this layer;
 	virtual void InitObjects();
+
+	// Activation of the obstacles
+	virtual void activateObstacles();
 
 	// Update function
 	void update(float delta);
@@ -61,8 +64,22 @@ public:
 	// Draw function, used for physics debug
 	virtual void draw();
 
+	// Base deconstructor
 	virtual ~MainLayer();
 
+	// Called when the object becomes active, BEFORE the end of the trasition
+	virtual void onEnter();
+	//
+	//// Called when the object becomes active, AFTER the end of the trasition
+	virtual void onEnterTransitionDidFinish();
+
+	//// Called when the object leaves the currently active scene
+	virtual void onExit();
+
+
+
+	// Touch callbacks
+public:
 	//Override input callback functions
 	virtual void ccTouchesBegan (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 	virtual void ccTouchesEnded (cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);

@@ -7,9 +7,9 @@ CCSprite* Object::getSprite()
 
 void Object::setSprite(CCSprite* sprite)
 {
-	if(sprite != NULL)
+	if(sprite != 0)
 	{
-		if(m_pSprite !=NULL)
+		if(m_pSprite !=0)
 		{
 			this->removeChild(m_pSprite);
 			m_pSprite->release();
@@ -43,8 +43,8 @@ bool Object::init()
 
 	this->setPosition(ccp(origin.x, origin.y));
 
-	m_pSprite = NULL;
-	m_Name = NULL;
+	m_pSprite = 0;
+	m_Name = 0;
 
 	//Add the update func to the schedule
 	this->scheduleUpdate();

@@ -4,11 +4,11 @@
 #include "GameScreen.h"
 
 
-ObstacleManager* ObstacleManager::m_pInstance = NULL;
+ObstacleManager* ObstacleManager::m_pInstance = 0;
 
 ObstacleManager* ObstacleManager::getInstance()
 {
-	if(m_pInstance != NULL)
+	if(m_pInstance != 0)
 	{
 		return m_pInstance;
 	}
@@ -22,7 +22,7 @@ ObstacleManager* ObstacleManager::getInstance()
 		return m_pInstance;
 	}
 	CC_SAFE_DELETE(m_pInstance);
-	return NULL;
+	return 0;
 }
 
 bool ObstacleManager::init()
@@ -53,16 +53,16 @@ bool ObstacleManager::newObstacle(int obstacleType)
 		return newObstacle();
 	}
 
-	Obstacle* obstacle = NULL;
+	Obstacle* obstacle = 0;
 
 	if(m_ObstaclePool.size() > 0)
 	{
 
-		for(int i = 0; i < m_ObstaclePool.size(); ++i)
+		for(uint i = 0; i < m_ObstaclePool.size(); ++i)
 		{
 			obstacle = m_ObstaclePool[i];
 
-			if(obstacle != NULL)
+			if(obstacle != 0)
 			{
 				if(obstacle->getType() == obstacleType)
 				{
@@ -71,11 +71,11 @@ bool ObstacleManager::newObstacle(int obstacleType)
 				}
 			}
 
-			obstacle = NULL;
+			obstacle = 0;
 		}
 	}
 
-	if(obstacle == NULL)
+	if(obstacle == 0)
 	{
 		do
 		{
@@ -98,20 +98,20 @@ bool ObstacleManager::newObstacle(int obstacleType)
 
 void ObstacleManager::update(float delta)
 {
-	Obstacle* obstacle = NULL;
+	Obstacle* obstacle = 0;
 
-	for(int i = 0; i < m_ActiveObstacles.size(); ++i)
+	for(uint i = 0; i < m_ActiveObstacles.size(); ++i)
 	{
 		obstacle = m_ActiveObstacles[i];
 
-		if(obstacle == NULL)
+		if(obstacle == 0)
 		{
 			m_ActiveObstacles.erase(m_ActiveObstacles.begin() + i);
 			continue;
 
 		}
 
-		else if(obstacle->getActionByTag(TAG_OBSTACLE_DONE) == NULL)
+		else if(obstacle->getActionByTag(TAG_OBSTACLE_DONE) == 0)
 		{
 			m_ActiveObstacles.erase(m_ActiveObstacles.begin() + i);
 			this->removeChild(obstacle);
@@ -125,17 +125,17 @@ ObstacleManager::~ObstacleManager()
 {
 	this->removeAllChildrenWithCleanup(true);
 
-	for(int i = 0; i < m_ObstaclePool.size(); ++i)
+	for(uint i = 0; i < m_ObstaclePool.size(); ++i)
 	{
 		//CC_SAFE_RELEASE_NULL(m_ObstaclePool[i]);
 	}
 
-	for(int i = 0; i < m_ActiveObstacles.size(); ++i)
+	for(uint i = 0; i < m_ActiveObstacles.size(); ++i)
 	{
 		//CC_SAFE_RELEASE_NULL(m_ActiveObstacles[i]);
 	}
 
-	m_pInstance = NULL;
+	m_pInstance = 0;
 
 	m_ObstaclePool.clear();
 	m_ActiveObstacles.clear();

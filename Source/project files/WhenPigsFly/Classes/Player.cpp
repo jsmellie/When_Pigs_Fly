@@ -19,35 +19,35 @@ b2Body* Player::getBody()
 
 Player::~Player()
 {
-	int bp = 0;
-
 	this->removeAllChildrenWithCleanup(true);
+
+	m_jVertJoint = 0;
 
 	destroyBody();
 
-	m_jVertJoint = NULL;
-	m_pEmitter = NULL;
+	m_pEmitter = 0;
 }
 
 bool Player::init()
 {
+	//Previous init
 	if(!Object::init())
 	{
 		return false;
 	}
 
+	// Default values
 	m_DeleteBody = false;
-
 	m_Name = NAME_PLAYER;
-
-	b2World* world = GameScreen::getInstance()->getMain()->getWorld();
-
 	m_vThrust = b2Vec2(0, 40.0f);
-
 	m_isInputPressed = false;
+	m_pPhysicsBody = 0;
 
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	//Set the starting position
+	this->setPosition(-PLAYER_WIDTH, visibleSize.height/2 + origin.y);
 
 	//Load in the sprite sheet
 	CCSpriteBatchNode* spriteSheet = CCSpriteBatchNode::create(PLAYER_FILENAME);
@@ -55,7 +55,7 @@ bool Player::init()
 	//Set up the sprite itself
 	m_pSprite = CCSprite::createWithTexture(spriteSheet->getTexture(), CCRectMake(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
 
-	m_pSprite->setRotation(PLAYER_IDLE_ROT);
+	m_pSprite->setRotation(PLAYER_IDLE_ROT * 2);
 	m_pSprite->retain();
 
 	//Add the sprite to the sprite sheet
@@ -81,53 +81,16 @@ bool Player::init()
 	//make the sprite animate
 	m_pSprite->runAction(repPlayerAni);
 
-	//Create the physics body definition
-	b2BodyDef playerBodyDef;
-	playerBodyDef.type = b2_dynamicBody;
-	playerBodyDef.fixedRotation = true;
-
-	//Starting position for the player
-	CCPoint pos = ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y);
-
-	//Setting the physics body starting position
-	playerBodyDef.position.Set(pos.x/PTM_RATIO, pos.y/PTM_RATIO);
-	//Setting the physics body rotation value in radians
-	playerBodyDef.angle = (-1 * CC_DEGREES_TO_RADIANS(m_pSprite->getRotation()));
-	//Setting this instance to the userdata so that in a collision callback I have referrence to it
-	playerBodyDef.userData = this;
-
-	m_pPhysicsBody = world->CreateBody(&playerBodyDef);
-
-	b2PolygonShape playerShape;
-	playerShape.SetAsBox((PLAYER_WIDTH/2)/PTM_RATIO, (PLAYER_HEIGHT/2)/PTM_RATIO);
-
-	b2FixtureDef playerShapeDef;
-	playerShapeDef.shape = &playerShape;
-	playerShapeDef.density = PLAYER_DESITY;
-	playerShapeDef.friction = PLAYER_FRICTION;
-	playerShapeDef.restitution = PLAYER_REST;
-
-	m_pPhysicsBody->CreateFixture(&playerShapeDef);
-
-	b2PrismaticJointDef jointDef;
-	b2Vec2 worldAxis(0.0f, 1.0f);
-
-	jointDef.collideConnected = true;
-	jointDef.Initialize(m_pPhysicsBody,
-		GameScreen::getInstance()->getMain()->getLevelBody(),
-		m_pPhysicsBody->GetWorldCenter(),
-		worldAxis);
-
-	m_jVertJoint = world->CreateJoint(&jointDef);
-
 	//Make spritesheet a player child
 	this->addChild(spriteSheet, 2);
 
-	//m_pEmitter = NULL;
+	// Initialize the smoke trail
 	m_pEmitter = CCParticleSmoke::createWithTotalParticles(200, PLAYER_HEIGHT / 12);
 
-	if(m_pEmitter != NULL)
+	// If the initialization went properly
+	if(m_pEmitter != 0)
 	{
+		// Set custom smoke attributes
 		m_pEmitter->setTexture(CCTextureCache::sharedTextureCache()->addImage(SMOKE_FILENAME));
 		m_pEmitter->setGravity(ccp(-400, 100));
 
@@ -150,12 +113,35 @@ bool Player::init()
 		this->addChild(m_pEmitter, -1);
 	}
 
+	// Create the basic intro action
+	CCMoveTo* pMoveTo = CCMoveTo::create(1.2f, ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y));
+	CCEaseOut* moveEase = CCEaseOut::create(pMoveTo, 7);
+
+	CCCallFunc* pCallFunc = CCCallFunc::create(this, callfunc_selector(Player::initPhysics));
+
+	CCSequence* pSeq1 = CCSequence::createWithTwoActions(moveEase, pCallFunc);//CCDelayTime::create(0.2f));
+
+	//MainLayer* main = GameScreen::getInstance()->getMain();
+
+	//CCSequence* pSeq2 = CCSequence::createWithTwoActions(pCallFunc, CCCallFunc::create(main, callfunc_selector(MainLayer::activateObstacles)));
+
+	//CCSequence* pIntro = CCSequence::createWithTwoActions(pSeq1, pSeq2);
+
+	//pIntro->setTag(TAG_PLAYER_INTRO);
+
+	this->runAction(pSeq1);
+
+	CCRotateTo* pRotate = CCRotateTo::create(1.2f, PLAYER_IDLE_ROT);
+	CCEaseSineOut* rotateEase = CCEaseSineOut::create(pRotate);
+
+	m_pSprite->runAction(rotateEase);
+
 	return true;
 }
 
 void Player::update(float delta)
 {
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		if(shouldDeleteBody())
 		{
@@ -163,6 +149,11 @@ void Player::update(float delta)
 		}
 		else
 		{
+			CCAction* temp = this->getActionByTag(TAG_PLAYER_INTRO);
+			if(this->getActionByTag(TAG_PLAYER_INTRO))
+			{
+				int bp = 0;
+			}
 			//Visible size of the screen
 			CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 
@@ -201,28 +192,6 @@ void Player::update(float delta)
 
 			// Set the position of the player to the physics body's position
 			this->setPosition(bodyPos.x * PTM_RATIO, bodyPos.y * PTM_RATIO);
-		}
-	}
-	else
-	{
-		// Cehck to see if the action to move players off screen is finished
-		if(getActionByTag(TAG_PLAYER_CRASH) == NULL)
-		{
-			GameScreen* game = GameScreen::getInstance();
-
-			CCLayer* backLayer = game->getBackground();
-			backLayer->retain();
-
-			game->releaseBackground();
-
-			// Create a game over screen and set it's back layer to the background layer
-			GameOverScreen* gameOver = GameOverScreen::createWithBackLayer(GameScreen::getInstance()->getBackground());
-
-			CCDirector::sharedDirector()->replaceScene(gameOver);
-
-			backLayer->release();
-
-			//CCDirector::sharedDirector()->end();
 		}
 	}
 }
@@ -291,13 +260,60 @@ void Player::crash()
 
 void Player::destroyBody()
 {
-	if(m_pPhysicsBody != NULL)
+	if(m_pPhysicsBody != 0)
 	{
 		m_pPhysicsBody->GetWorld()->DestroyBody(m_pPhysicsBody);
-		m_pPhysicsBody = NULL;
+		m_pPhysicsBody = 0;
 	}
 
 	m_DeleteBody = false;
+}
+
+void Player::initPhysics()
+{
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	b2World* world = GameScreen::getInstance()->getMain()->getWorld();
+
+	//Create the physics body definition
+	b2BodyDef playerBodyDef;
+	playerBodyDef.type = b2_dynamicBody;
+	playerBodyDef.fixedRotation = true;
+
+	//Starting position for the player
+	CCPoint pos = ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y);
+
+	//Setting the physics body starting position
+	playerBodyDef.position.Set(pos.x/PTM_RATIO, pos.y/PTM_RATIO);
+	//Setting the physics body rotation value in radians
+	playerBodyDef.angle = (-1 * CC_DEGREES_TO_RADIANS(m_pSprite->getRotation()));
+	//Setting this instance to the userdata so that in a collision callback I have referrence to it
+	playerBodyDef.userData = this;
+
+	m_pPhysicsBody = world->CreateBody(&playerBodyDef);
+
+	b2PolygonShape playerShape;
+	playerShape.SetAsBox((PLAYER_WIDTH/2)/PTM_RATIO, (PLAYER_HEIGHT/2)/PTM_RATIO);
+
+	b2FixtureDef playerShapeDef;
+	playerShapeDef.shape = &playerShape;
+	playerShapeDef.density = PLAYER_DESITY;
+	playerShapeDef.friction = PLAYER_FRICTION;
+	playerShapeDef.restitution = PLAYER_REST;
+
+	m_pPhysicsBody->CreateFixture(&playerShapeDef);
+
+	b2PrismaticJointDef jointDef;
+	b2Vec2 worldAxis(0.0f, 1.0f);
+
+	jointDef.collideConnected = true;
+	jointDef.Initialize(m_pPhysicsBody,
+		GameScreen::getInstance()->getMain()->getLevelBody(),
+		m_pPhysicsBody->GetWorldCenter(),
+		worldAxis);
+
+	m_jVertJoint = world->CreateJoint(&jointDef);
 }
 
 void Player::createFireExplosion()
@@ -383,13 +399,15 @@ void Player::createBurningEffect()
 void Player::addCrashAction()
 {
 	//Get the distance between the player and the bottum of the screen plus the player's width
-
 	float distanceY = this->getPositionY() + m_pSprite->getContentSize().width;
 
+	// Determine the percentage of hieght the player is from the bottum of the screen
 	float yPercentage = distanceY / (CCDirector::sharedDirector()->getVisibleSize().height + m_pSprite->getContentSize().width);
 
+	// With the Y percentage, calculate how far back in X the player should move
 	float distanceX = this->getPositionX() * yPercentage;
 
+	// Calculate the time it will take
 	float time = distanceY / PLAYER_CRASH_SPEED;
 
 	// Creation of the movement action
@@ -397,7 +415,36 @@ void Player::addCrashAction()
 
 	// Turn the basic verticle movement into a ease in so that it looks like it's accelerating
 	CCEaseIn* moveEase = CCEaseIn::create(moveAction, 1.5f);
-	moveEase->setTag(TAG_PLAYER_CRASH);
 
-	this->runAction(moveEase);
+	// Create the function call action
+	CCCallFunc* pFuncCall = CCCallFunc::create(this, callfunc_selector(Player::gameOver));
+
+	// Combine the movement with the function call action
+	CCSequence* pCrashAction = CCSequence::createWithTwoActions(moveEase, pFuncCall);
+	pCrashAction->setTag(TAG_PLAYER_CRASH);
+
+	// Run the action
+	this->runAction(pCrashAction);
+}
+
+void Player::gameOver()
+{
+	// Get the current instance of the game screen
+	GameScreen* game = GameScreen::getInstance();
+
+	// Get a reference to the background layer
+	CCLayer* backLayer = game->getBackground();
+	backLayer->retain();
+
+	// Release the background layer from the game screen
+	game->releaseBackground();
+
+	// Create a game over screen and set it's back layer to the background layer
+	GameOverScreen* gameOver = GameOverScreen::createWithBackLayer(GameScreen::getInstance()->getBackground());
+
+	// replace the game screen with the game over menu
+	CCDirector::sharedDirector()->replaceScene(gameOver);
+
+	// release the current reference of the background layer
+	backLayer->release();
 }

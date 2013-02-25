@@ -17,5 +17,7 @@
 // Other files that are commanly used
 #include "Player.h"
 
+#define uint unsigned int
+
 
 #endif // __COMMON_HEADER_H__

@@ -16,7 +16,7 @@ ParallaxObject* ParallaxObject::create()
 	//Safely delete the pointer
     CC_SAFE_DELETE(pobParallax);
 	// Return null
-    return NULL;
+    return 0;
 }
 
 bool ParallaxObject::init()
@@ -49,7 +49,7 @@ ParallaxObject* ParallaxObject::create(const char* fileName)
 	//Safely delete the pointer
     CC_SAFE_DELETE(pobParallax);
 	// Return null
-    return NULL;
+    return 0;
 }
 
 bool ParallaxObject::initWithFileName(const char* fileName)
@@ -85,7 +85,7 @@ ParallaxObject* ParallaxObject::create(const char* fileName, int zOrder)
 	//Safely delete the pointer
     CC_SAFE_DELETE(pobParallax);
 	// Return null
-    return NULL;
+    return 0;
 }
 
 bool ParallaxObject::initWithFileName(const char* fileName, int zOrder)
@@ -150,7 +150,7 @@ CCSprite* ParallaxObject::getLoopingSprite()
 void ParallaxObject::setSprite(const char* fileName)
 {
 	// If m_pLoopingSprite isn't null
-	if(m_pLoopingSprite != NULL)
+	if(m_pLoopingSprite != 0)
 	{
 		// Remove it as a child
 		this->removeChild(m_pLoopingSprite);
@@ -159,7 +159,7 @@ void ParallaxObject::setSprite(const char* fileName)
 	}
 	
 	// If m_pLoopingSprite isn't null
-	if(m_pSprite != NULL)
+	if(m_pSprite != 0)
 	{
 		// Remove it as a child
 		this->removeChild(m_pSprite);
@@ -231,7 +231,7 @@ bool ParallaxObject::basicSetup()
 	this->setZOrder(-1);
 
 	//Set m_pLoopingSprite to null
-	m_pLoopingSprite = NULL;
+	m_pLoopingSprite = 0;
 
 	return true;
 }
