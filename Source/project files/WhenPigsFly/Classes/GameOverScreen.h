@@ -8,27 +8,17 @@
 
 enum GOTransition
 {
-	GONoTrans = 0,
-	GOIn,
+	GOIn = 0,
 	GOToMainMenu,
 	GOReplay,
 	GOToHighscores
 };
 
-class GameOverScreen : public CCScene
+class GameOverScreen : public MenuScreen
 {
 	// Fields
 	// --------------------
 protected:
-	// Background layer
-	CCLayer* m_pBackLayer;
-
-	// Button layer
-	CCLayer* m_pButtonLayer;
-
-	// Menu object
-	CCMenu* m_pMenu;
-
 	// Enum that reprensets what the current fade state
 	GOTransition m_Transition;
 	
@@ -36,10 +26,6 @@ protected:
 	// --------------------
 
 	// Getters and setters
-public:
-	// Returns the background layer
-	CCLayer* getBackLayer();
-
 protected:
 	// Set the transition
 	void setTransition(GOTransition transition);

@@ -1,12 +1,6 @@
 #include "GameOverScreen.h"
 #include "GameScreen.h"
 
-
-CCLayer* GameOverScreen::getBackLayer()
-{
-	return m_pBackLayer;
-}
-
 void GameOverScreen::setTransition(GOTransition transition)
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -16,12 +10,6 @@ void GameOverScreen::setTransition(GOTransition transition)
 
 	switch(m_Transition)
 	{
-	case GONoTrans:
-		{
-			// Do nothing because there is no transition currently
-			break;
-		}
-
 	case GOIn:
 		{
 			// Set the button layer to be high up in the air
@@ -83,23 +71,10 @@ GameOverScreen* GameOverScreen::create()
 
 bool GameOverScreen::init()
 {
-	if(!CCScene::init())
+	if(!MenuScreen::init())
 	{
 		return false;
 	}
-
-	m_pBackLayer = 0;//CCLayer::create();
-	m_pButtonLayer = 0;
-
-	// If the buttons didn't init properly
-	if(!initButtonLayer())
-	{
-		return false;
-	}
-
-	this->addChild(m_pButtonLayer);
-
-	this->scheduleUpdate();
 
 	setTransition(GOIn);
 
@@ -124,54 +99,20 @@ GameOverScreen* GameOverScreen::createWithBackLayer(CCLayer* backLayer)
 bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 {
 	// If CCScene doesn't init properly
-	if(!CCScene::init())
+	if(!MenuScreen::initWithBackLayer(backLayer))
 	{
 		return false;
 	}
 
-	// Default settings for everything
-	m_pBackLayer = 0;
-	m_pButtonLayer = 0;
-
-	// If the layer passed in was null
-	if(backLayer == 0)
-	{
-		return false;
-	}
-
-	// Set backlayer to the layer passed in
-	m_pBackLayer = backLayer;
-
-	// If the back layer is null
-	if (m_pBackLayer == 0)
-	{
-		return false;
-	}
-
-	// If the buttons didn't init properly
-	if(!initButtonLayer())
-	{
-		return false;
-	}
-
-	// Add the layers as children
-	this->addChild(m_pBackLayer, -1);
-	this->addChild(m_pButtonLayer, 0);
-
-	// Set the transition to in
+	//// Set the transition to in
 	setTransition(GOIn);
-
-	// Reactivate the background so that it's still moving
-	reactivateBack();
 
 	// Everything was successfull
 	return true;
 }
 
 GameOverScreen::~GameOverScreen()
-{
-	//this->removeAllChildrenWithCleanup(true);
-}
+{}
 
 bool GameOverScreen::initButtonLayer()
 {

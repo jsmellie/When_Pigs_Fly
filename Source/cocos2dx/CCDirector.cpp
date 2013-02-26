@@ -792,11 +792,11 @@ void CCDirector::createStatsLabel()
         fontSize = (int)(m_obWinSizeInPoints.width / 320.0f * 24);
     }
     
-    m_pFPSLabel = CCLabelTTF::create("00.0", "Arial", fontSize);
+    m_pFPSLabel = CCLabelTTF::create("00.0", "fonts/A Damn Mess.ttf", fontSize);
     m_pFPSLabel->retain();
-    m_pSPFLabel = CCLabelTTF::create("0.000", "Arial", fontSize);
+    m_pSPFLabel = CCLabelTTF::create("0.000", "SquareFont", fontSize);
     m_pSPFLabel->retain();
-    m_pDrawsLabel = CCLabelTTF::create("000", "Arial", fontSize);
+    m_pDrawsLabel = CCLabelTTF::create("000", "Times New Roman", fontSize);
     m_pDrawsLabel->retain();
 
     CCSize contentSize = m_pDrawsLabel->getContentSize();

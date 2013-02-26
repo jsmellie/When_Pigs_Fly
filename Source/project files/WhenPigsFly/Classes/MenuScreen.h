@@ -28,10 +28,10 @@ public:
 	//Gameloop and creation functions
 public:
 	// Basic init
-	//virtual bool init();
+	virtual bool init();
 
 	// Init with a passed layer
-	//virtual bool initWithBackLayer(CCLayer* backLayer);
+	virtual bool initWithBackLayer(CCLayer* backLayer);
 
 	// Deconstructor
 	virtual ~MenuScreen();
