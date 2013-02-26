@@ -133,10 +133,10 @@ void MainLayer::update(float delta)
 	m_TimePassed += delta;
 
 	// If the time passed is more then 1 second
-	if(m_TimePassed >= 1)
+	if(m_TimePassed >= 2)
 	{
-		// Remove 1 second and spawn a new obstacle
-		m_TimePassed -= 1;
+		// Remove 2 second and spawn a new obstacle
+		m_TimePassed -= 2;
 		ObstacleManager::getInstance()->newObstacle();
 	}
 
