@@ -120,6 +120,7 @@ GameOverScreen* GameOverScreen::createWithBackLayer(CCLayer* backLayer)
 	return 0;
 }
 
+
 bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 {
 	// If CCScene doesn't init properly
@@ -169,7 +170,7 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 
 GameOverScreen::~GameOverScreen()
 {
-	this->removeAllChildrenWithCleanup(true);
+	//this->removeAllChildrenWithCleanup(true);
 }
 
 bool GameOverScreen::initButtonLayer()
@@ -203,11 +204,14 @@ bool GameOverScreen::initButtonLayer()
 	// Add menu as a child to the button layer
 	m_pButtonLayer->addChild(m_pMenu, 1);
 
+	//this->addChild(m_pButtonLayer, 0);
+
 	return true;
 }
 
 void GameOverScreen::update(float delta)
 {
+
 }
 
 void GameOverScreen::mainMenuCallback(CCObject* pSender)

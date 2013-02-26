@@ -68,6 +68,9 @@
     <ClCompile Include="..\Classes\GameOverScreen.cpp">
       <Filter>Classes\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MenuScreen.cpp">
+      <Filter>Classes\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FilenameDefines.h">
       <Filter>Classes\Helper Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MenuScreen.h">
+      <Filter>Classes\Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

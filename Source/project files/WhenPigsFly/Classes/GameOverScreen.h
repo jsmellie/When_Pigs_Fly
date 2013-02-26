@@ -2,6 +2,7 @@
 #define __GAMEOVER_SCREEN_H__
 
 #include "CommonHeader.h"
+#include "MenuScreen.h"
 
 #define TAG_GAMEOVER_FADE 9
 
