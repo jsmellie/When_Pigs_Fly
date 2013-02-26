@@ -59,7 +59,7 @@ public:
 	virtual ~GameOverScreen();
 
 	// Initialize the button layer
-	bool initButtonLayer();
+	virtual bool initButtonLayer();
 
 	// Updates the layer
 	virtual void update(float delta);
