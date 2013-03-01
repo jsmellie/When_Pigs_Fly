@@ -30,6 +30,9 @@
     <Filter Include="Classes\Physics Related">
       <UniqueIdentifier>{4f06d242-2e9c-4e34-a325-f74d3914f775}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Screens\Menus">
+      <UniqueIdentifier>{e3e29237-4e9f-4f7c-8250-ab45da533783}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,10 +69,13 @@
       <Filter>Classes\Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameOverScreen.cpp">
-      <Filter>Classes\Screens</Filter>
+      <Filter>Classes\Screens\Menus</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\MenuScreen.cpp">
-      <Filter>Classes\Screens</Filter>
+      <Filter>Classes\Screens\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainMenuScreen.cpp">
+      <Filter>Classes\Screens\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,14 +124,17 @@
     <ClInclude Include="..\Classes\NameDefines.h">
       <Filter>Classes\Helper Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameOverScreen.h">
-      <Filter>Classes\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\FilenameDefines.h">
       <Filter>Classes\Helper Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameOverScreen.h">
+      <Filter>Classes\Screens\Menus</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\MenuScreen.h">
-      <Filter>Classes\Screens</Filter>
+      <Filter>Classes\Screens\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainMenuScreen.h">
+      <Filter>Classes\Screens\Menus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

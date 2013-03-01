@@ -25,7 +25,7 @@ bool MenuScreen::init()
 
 	this->addChild(m_pButtonLayer);
 
-	this->scheduleUpdate();
+	//this->scheduleUpdate();
 
 	return true;
 }

@@ -13,6 +13,8 @@
 #define REPLAY_FILENAME							"Menus/replay.png"
 #define HIGHSCORE_FILENAME						"Menus/highscores.png"
 #define BACKTOMAIN_FILENAME						"Menus/backToMain.png"
+#define PLAY_FILENAME							"Menus/play.png"
+#define OPTIONS_FILENAME						"Menus/options.png"
 
 // Background filenames
 #define CLOSE_BACKGROUND_FILENAME				"Backgrounds/Fields-Close.png"

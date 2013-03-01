@@ -1,5 +1,6 @@
 #include "GameOverScreen.h"
 #include "GameScreen.h"
+#include "MainMenuScreen.h"
 
 void GameOverScreen::setTransition(GOTransition transition)
 {
@@ -29,7 +30,11 @@ void GameOverScreen::setTransition(GOTransition transition)
 
 	case GOToMainMenu:
 		{
+			// Get the instance of the game screen
+			//CCScene* scene = MainMenuScreen::create();
 
+			// Replace the current screen with the game screen, but use the page turn transition
+			//CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, scene));
 			break;
 		}
 
@@ -126,7 +131,7 @@ bool GameOverScreen::initButtonLayer()
 	m_pButtonLayer->setTouchEnabled(true);
 
 	// Creation of the replay button
-	CCMenuItemImage* pReplay = CCMenuItemImage::create(REPLAY_FILENAME, REPLAY_FILENAME, m_pButtonLayer, menu_selector(GameOverScreen::playAgainCallback));
+	CCMenuItemImage* pReplay = CCMenuItemImage::create(REPLAY_FILENAME, REPLAY_FILENAME, m_pButtonLayer, menu_selector(GameOverScreen::replayCallback));
 	pReplay->setPosition((visibleSize.width/4) + origin.x,visibleSize.height/3 + origin.y);
 
 	// Creation of the return button
@@ -160,7 +165,7 @@ void GameOverScreen::mainMenuCallback(CCObject* pSender)
    setTransition(GOToMainMenu);
 }
 
-void GameOverScreen::playAgainCallback(CCObject* pSender)
+void GameOverScreen::replayCallback(CCObject* pSender)
 {
    setTransition(GOReplay);
 }

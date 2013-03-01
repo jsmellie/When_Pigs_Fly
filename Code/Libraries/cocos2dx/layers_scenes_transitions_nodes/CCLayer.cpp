@@ -141,7 +141,7 @@ void CCLayer::registerScriptTouchHandler(int nHandler, bool bIsMultiTouches, int
 void CCLayer::unregisterScriptTouchHandler(void)
 {
     CC_SAFE_RELEASE_NULL(m_pScriptTouchHandlerEntry);
-    }
+}
 
 int CCLayer::excuteScriptTouchHandler(int nEventType, CCTouch *pTouch)
 {

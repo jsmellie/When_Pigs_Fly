@@ -54,11 +54,11 @@ public:
 
 	//Button callback functions
 public:
-	// Callback function for the exit button
+	// Callback function for the main menu button
 	void mainMenuCallback(CCObject* pSender);
 
-	// Callback function for the play again button
-	void playAgainCallback(CCObject* pSender);
+	// Callback function for the replay button
+	void replayCallback(CCObject* pSender);
 
 	// Callback function for the highscore button
 	void highscoreCallback(CCObject* pSender);

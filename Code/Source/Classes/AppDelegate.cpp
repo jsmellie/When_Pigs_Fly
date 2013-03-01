@@ -1,4 +1,5 @@
 #include "AppDelegate.h"
+#include "MainMenuScreen.h"
 #include "GameScreen.h"
 #include "AppMacros.h"
 
@@ -57,11 +58,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene* testScene = GameScreen::create();
+	CCScene* testScene = GameScreen::getInstance();
 	//testScene->retain();
 
     // run
-	pDirector->runWithScene(GameScreen::getInstance());
+	pDirector->runWithScene(testScene);
 
     return true;
 }
