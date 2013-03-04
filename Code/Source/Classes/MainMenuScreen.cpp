@@ -59,9 +59,6 @@ bool MainMenuScreen::init()
 		return false;
 	}
 
-	m_pTitle = 0;
-	// TODO: Implement title
-
 	setTransition(MMIn);
 
 	return true;
@@ -69,13 +66,16 @@ bool MainMenuScreen::init()
 
 MainMenuScreen::~MainMenuScreen()
 {
-	CC_SAFE_RELEASE_NULL(m_pTitle);
+
 }
 
 bool MainMenuScreen::initButtonLayer()
 {
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	// Quick calculation for the middle of the screen on X
+	float middle = (visibleSize.width/2) + origin.x;
 
 	// Initialization of button layer
 	m_pButtonLayer = CCLayer::create();
@@ -85,15 +85,15 @@ bool MainMenuScreen::initButtonLayer()
 
 	//Creation of the play button
 	CCMenuItemImage* pPlay = CCMenuItemImage::create(PLAY_FILENAME, PLAY_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::playCallback));
-	pPlay->setPosition((pPlay->getNormalImage()->getContentSize().width / 2) + origin.x, (visibleSize.height/4) + origin.y);
+	pPlay->setPosition(middle - (pPlay->getContentSize().width * 1.5f), (visibleSize.height/4) + origin.y);
 
 	//Creation of the options button
 	CCMenuItemImage* pOptions = CCMenuItemImage::create(OPTIONS_FILENAME, OPTIONS_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::optionsCallback));
-	pOptions->setPosition(visibleSize.width - (pOptions->getNormalImage()->getContentSize().width / 2) + origin.x, (visibleSize.height/4) + origin.y);
+	pOptions->setPosition(middle + (pPlay->getContentSize().width * 1.5f), (visibleSize.height/4) + origin.y);
 
 	// Creation of the highscores button
 	CCMenuItemImage* pHighscores = CCMenuItemImage::create(OPTIONS_FILENAME, OPTIONS_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::optionsCallback));
-	pHighscores->setPosition((visibleSize.width/2) + origin.x, (visibleSize.height/4) + origin.y);
+	pHighscores->setPosition(middle, (visibleSize.height/4) + origin.y);
 
 	// Menu object that holds the buttons
 	m_pMenu = CCMenu::create(pPlay, pOptions, pHighscores, 0);

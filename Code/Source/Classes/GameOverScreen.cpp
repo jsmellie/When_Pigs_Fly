@@ -31,10 +31,10 @@ void GameOverScreen::setTransition(GOTransition transition)
 	case GOToMainMenu:
 		{
 			// Get the instance of the game screen
-			//CCScene* scene = MainMenuScreen::create();
+			CCScene* scene = MainMenuScreen::create();
 
 			// Replace the current screen with the game screen, but use the page turn transition
-			//CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, scene));
+			CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, scene));
 			break;
 		}
 

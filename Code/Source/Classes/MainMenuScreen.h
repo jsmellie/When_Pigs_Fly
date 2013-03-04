@@ -18,7 +18,7 @@ class MainMenuScreen : public MenuScreen
 	// --------------------
 protected:
 	// Title
-	CCSprite* m_pTitle;
+	//CCSprite* m_pTitle;
 
 	// Enum that represents the current fade state
 	MMTransition m_eTransition;	
