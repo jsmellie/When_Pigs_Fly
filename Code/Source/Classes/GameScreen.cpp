@@ -2,6 +2,7 @@
 #include "AppMacros.h"
 #include "MainLayer.h"
 #include "ParallaxObject.h"
+#include "GameOverScreen.h"
 
 USING_NS_CC;
 
@@ -42,6 +43,9 @@ b2Vec2 GameScreen::getGravity()
 
 bool GameScreen::init()
 {
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
 	if( !CCScene::init())
 	{
 		return false;
@@ -56,7 +60,11 @@ bool GameScreen::init()
 		m_pInstance = this;
 	}
 
+	m_pScoreLabel = 0;
+
 	m_vGravity = b2Vec2(0.0f, -9.8f);
+
+	m_fScore = -1;
 
 	// Creation of the layers
 	m_pMain = MainLayer::create();
@@ -69,9 +77,22 @@ bool GameScreen::init()
 	// Initialize background with it's values
 	initBackground();
 
+	// Initialize the score's label
+	m_pScoreLabel = CCLabelTTF::create("TEST", "fonts/AlphaWood.ttf", 36);
+
+	ccColor3B color;
+
+	color.r = color.b = color.g = 0;
+
+	m_pScoreLabel->setColor(color);
+	m_pScoreLabel->setPosition(ccp(visibleSize.width - m_pScoreLabel->getContentSize().width, visibleSize.height - m_pScoreLabel->getContentSize().height));
+
 	//Add the layers as children
 	this->addChild(m_pMain, 0);
 	this->addChild(m_pBackground, -1);
+	this->addChild(m_pScoreLabel, 1);
+
+	this->scheduleUpdate();
 
 	return true;
 }
@@ -93,6 +114,25 @@ bool GameScreen::initBackground()
 	m_pBackground->addChild(sky, -10);
 
 	return true;
+}
+
+void GameScreen::update(float delta)
+{
+	if(m_fScore > -1)
+	{
+		CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+		CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+		m_fScore += delta * SCORE_PER_SECOND;
+
+		char* scoreString = new char[16];
+
+		sprintf(scoreString, "%.0f km", m_fScore);
+		
+		m_pScoreLabel->setString(scoreString);
+
+		m_pScoreLabel->setPosition(ccp(visibleSize.width - (m_pScoreLabel->getContentSize().width/6)*5, visibleSize.height - m_pScoreLabel->getContentSize().height));
+	}
 }
 
 GameScreen::~GameScreen()
@@ -118,4 +158,33 @@ bool GameScreen::releaseBackground()
 	}
 
 	return false;
+}
+
+void GameScreen::gameOver()
+{
+	// Get a reference to the background layer
+	CCLayer* backLayer = getBackground();
+	backLayer->retain();
+
+	// Release the background layer from the game screen
+	releaseBackground();
+
+	// Create a game over screen and set it's back layer to the background layer
+	GameOverScreen* gameOver = GameOverScreen::createWithBackLayerAndScore(GameScreen::getInstance()->getBackground(), m_fScore);
+
+	// replace the game screen with the game over menu
+	CCDirector::sharedDirector()->replaceScene(gameOver);
+
+	// release the current reference of the background layer
+	backLayer->release();
+}
+
+void GameScreen::startScore()
+{
+	CCAssert(m_fScore < 0,"");
+
+	if(m_fScore < 0)
+	{
+		m_fScore = 0;
+	}
 }

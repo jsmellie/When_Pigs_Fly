@@ -81,6 +81,8 @@ bool GameOverScreen::init()
 		return false;
 	}
 
+	m_fScore = -1;
+
 	setTransition(GOIn);
 
 	return true;
@@ -109,8 +111,39 @@ bool GameOverScreen::initWithBackLayer(CCLayer* backLayer)
 		return false;
 	}
 
+	m_fScore = -1;
+
 	//// Set the transition to in
 	setTransition(GOIn);
+
+	// Everything was successfull
+	return true;
+}
+
+GameOverScreen* GameOverScreen::createWithBackLayerAndScore(CCLayer* backLayer, float score)
+{
+	GameOverScreen* pobGOScreen = new GameOverScreen();
+
+	if(pobGOScreen && pobGOScreen->initWithBackLayerAndScore(backLayer, score))
+	{
+		pobGOScreen->autorelease();
+		return pobGOScreen;
+	}
+
+	CC_SAFE_DELETE(pobGOScreen);
+	return 0;
+}
+
+
+bool GameOverScreen::initWithBackLayerAndScore(CCLayer* backLayer, float score)
+{
+	// If CCScene doesn't init properly
+	if(!this->initWithBackLayer(backLayer))
+	{
+		return false;
+	}
+
+	m_fScore = score;
 
 	// Everything was successfull
 	return true;

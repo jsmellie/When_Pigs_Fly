@@ -21,6 +21,9 @@ class GameOverScreen : public MenuScreen
 protected:
 	// Enum that reprensets what the current fade state
 	GOTransition m_Transition;
+
+	// Final score for the last setion of the game
+	float m_fScore;
 	
 	// Methods
 	// --------------------
@@ -41,6 +44,11 @@ public:
     static GameOverScreen* createWithBackLayer(CCLayer* backLayer);
 	// Init with a passed layer
 	bool initWithBackLayer(CCLayer* backLayer);
+
+	// Creating a new object with a background layer
+    static GameOverScreen* createWithBackLayerAndScore(CCLayer* backLayer, float score);
+	// Init with a passed layer
+	bool initWithBackLayerAndScore(CCLayer* backLayer, float score);
 
 	// Decontructor
 	virtual ~GameOverScreen();

@@ -15,11 +15,13 @@
 #define BACKTOMAIN_FILENAME						"Menus/backToMain.png"
 #define PLAY_FILENAME							"Menus/play.png"
 #define OPTIONS_FILENAME						"Menus/options.png"
+#define TITLE_FILENAME							"Menus/title.png"
 
 // Background filenames
 #define CLOSE_BACKGROUND_FILENAME				"Backgrounds/Fields-Close.png"
 #define MEDIUM_BACKGROUND_FILENAME				"Backgrounds/Forest-Medium.png"
 #define FAR_BACKGROUND_FILENAME					"Backgrounds/Bunched-Clouds.png"
 #define SKY_FILENAME							"Backgrounds/Sunset-Sky.png"
+#define MAINMENU_BACKGROUND_FILENAME			"Backgrounds/MainMenu.png"
 
 #endif //__FILENAME_DEFINES_H__

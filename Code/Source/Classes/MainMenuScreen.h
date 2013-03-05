@@ -17,11 +17,11 @@ class MainMenuScreen : public MenuScreen
 	// Fields
 	// --------------------
 protected:
-	// Title
-	//CCSprite* m_pTitle;
-
 	// Enum that represents the current fade state
 	MMTransition m_eTransition;	
+
+	// Title
+	CCSprite* m_pTitle;
 
 	
 	// Methods
@@ -65,6 +65,9 @@ public:
 protected:
 	// Re-activates the background layer so that the background still moves
 	virtual bool reactivateBack();
+
+	// Creates the title and it's intro animation
+	virtual void createTitle();
 };
 
 #endif //__MAIN_MENU_SCREEN_H__

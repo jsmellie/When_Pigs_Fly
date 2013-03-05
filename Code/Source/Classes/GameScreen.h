@@ -4,16 +4,15 @@
 
 #include "CommonHeader.h"
 
-class MainLayer;
+#define SCORE_PER_SECOND		2.115f
 
-//TODO: Think of a better name then DetailLayer that can mean both foreground and background
+class MainLayer;
 
 class GameScreen : public cocos2d::CCScene
 {
 	// Fields
 	// --------------------
 private:
-
 	//Static instance of GameScreen
 	static GameScreen* m_pInstance;
 
@@ -25,6 +24,12 @@ private:
 
 	//Variable for the games gravity
 	b2Vec2 m_vGravity;
+
+	// Current score of the player
+	float m_fScore;
+
+	// Label to display the score
+	CCLabelTTF* m_pScoreLabel;
 
 	// Methods
 	// --------------------
@@ -58,11 +63,22 @@ public:
 	// Create background layer
 	virtual bool initBackground();
 
+	virtual void update(float delta);
+
 	virtual ~GameScreen();
 
 	// Other usefull functions
 public:
+	// releases the gamescreens retain of the backgrounds
 	virtual bool releaseBackground();
+
+	// removes the game screen and adds a game over screen
+	virtual void gameOver();
+
+	// sets the score to 0 to start the incrementation
+	virtual void startScore();
+
+
 };
 
 #endif // __GAME_SCREEN_H__

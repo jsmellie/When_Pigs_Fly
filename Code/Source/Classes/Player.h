@@ -114,6 +114,9 @@ protected:
 	//Initializes the physics body
 	virtual void initPhysics();
 
+	// Initializes the game screens score
+	virtual void startScore();
+
 	// Creates a fire explosion on the players current position
 	virtual void createFireExplosion();
 

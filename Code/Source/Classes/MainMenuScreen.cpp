@@ -7,23 +7,37 @@ void MainMenuScreen::setTransition(MMTransition transition)
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
+	float middle = (visibleSize.width/2) + origin.x;
+
 	m_eTransition = transition;
 
 	switch(m_eTransition)
 	{
 	case MMIn:
 		{
-			// Set the button layer's scale to something really small
-			m_pButtonLayer->setScale(0.01f);
+			if(m_pMenu != 0)
+			{
+				// Set the button layer's scale to something really small
+				m_pMenu->setScale(0.01f);
 
-			// Scale the layer to it's proper size over 1 second
-			CCScaleTo* pScaleTo = CCScaleTo::create(1, 1);
+				// Scale the layer to it's proper size over 1 second
+				CCScaleTo* pScaleTo = CCScaleTo::create(1.1f, 1);
 
-			// Make the scale bounce nicely
-			CCEaseBounceOut* pBounceScale = CCEaseBounceOut::create(pScaleTo);
+				// Make the scale bounce nicely
+				CCEaseBounceOut* pBounceScale = CCEaseBounceOut::create(pScaleTo);
 
-			// Run the intro action
-			m_pButtonLayer->runAction(pBounceScale);
+				// Run the intro action
+				m_pMenu->runAction(pBounceScale);
+			}
+
+			if(m_pTitle != 0)
+			{
+				CCMoveTo* pMoveTo = CCMoveTo::create(1.1f, ccp(middle, (visibleSize.height/4)*3 + origin.y - m_pTitle->getContentSize().height/8));
+
+				CCEaseBounceOut* pTitleBouce = CCEaseBounceOut::create(pMoveTo);
+
+				m_pTitle->runAction(pTitleBouce);
+			}
 
 			break;
 		}
@@ -58,6 +72,19 @@ bool MainMenuScreen::init()
 	{
 		return false;
 	}
+
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	m_pBackLayer = CCLayer::create();
+
+	m_pBackLayer->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+
+	CCSprite* pBackground = CCSprite::create(MAINMENU_BACKGROUND_FILENAME);
+
+	m_pBackLayer->addChild(pBackground);
+
+	this->addChild(m_pBackLayer, -1);
 
 	setTransition(MMIn);
 
@@ -104,6 +131,16 @@ bool MainMenuScreen::initButtonLayer()
 	// Add menu as a child to the button layer
 	m_pButtonLayer->addChild(m_pMenu, 1);
 
+	//createTitle();
+
+	m_pTitle = CCSprite::create(TITLE_FILENAME);
+
+	//float middle = (visibleSize.width/2) + origin.x;
+
+	m_pTitle->setPosition(ccp(middle, visibleSize.height + origin.y + m_pTitle->getContentSize().height));
+
+	m_pButtonLayer->addChild(m_pTitle);
+
 	return true;
 }
 
@@ -139,4 +176,24 @@ bool MainMenuScreen::reactivateBack()
 	int bp = 0;
 
 	return true;
+}
+
+void MainMenuScreen::createTitle()
+{
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	m_pTitle = CCSprite::create(TITLE_FILENAME);
+
+	float middle = (visibleSize.width/2) + origin.x;
+
+	m_pTitle->setPosition(ccp(middle, visibleSize.height + origin.y + m_pTitle->getContentSize().height));
+
+	CCMoveTo* pMoveTo = CCMoveTo::create(1, ccp(middle, (visibleSize.height/4)*3 + origin.y - m_pTitle->getContentSize().height/8));
+
+	CCEaseBounceOut* pTitleBouce = CCEaseBounceOut::create(pMoveTo);
+
+	m_pTitle->runAction(pTitleBouce);
+
+	m_pButtonLayer->addChild(m_pTitle);
 }

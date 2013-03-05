@@ -119,7 +119,11 @@ bool Player::init()
 	CCMoveTo* pMoveTo = CCMoveTo::create(introTime, ccp(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y));
 	CCEaseOut* moveEase = CCEaseOut::create(pMoveTo, 3);
 
-	CCCallFunc* pCallFunc = CCCallFunc::create(this, callfunc_selector(Player::initPhysics));
+	CCCallFunc* pCallInitPhys = CCCallFunc::create(this, callfunc_selector(Player::initPhysics));
+
+	CCCallFunc* pCallStartScore = CCCallFunc::create(this, callfunc_selector(Player::startScore));
+
+	CCSpawn* pCallFunc = CCSpawn::createWithTwoActions(pCallInitPhys, pCallStartScore);
 
 	CCSequence* pSeq1 = CCSequence::createWithTwoActions(moveEase, CCDelayTime::create(0.2f));
 
@@ -321,6 +325,11 @@ void Player::initPhysics()
 	m_jVertJoint = world->CreateJoint(&jointDef);
 }
 
+void Player::startScore()
+{
+	GameScreen::getInstance()->startScore();
+}
+
 void Player::createFireExplosion()
 {
 	CCParticleSystem* fireExplosion = CCParticleExplosion::createWithTotalParticles(200);
@@ -434,22 +443,5 @@ void Player::addCrashAction()
 
 void Player::gameOver()
 {
-	// Get the current instance of the game screen
-	GameScreen* game = GameScreen::getInstance();
-
-	// Get a reference to the background layer
-	CCLayer* backLayer = game->getBackground();
-	backLayer->retain();
-
-	// Release the background layer from the game screen
-	game->releaseBackground();
-
-	// Create a game over screen and set it's back layer to the background layer
-	GameOverScreen* gameOver = GameOverScreen::createWithBackLayer(GameScreen::getInstance()->getBackground());
-
-	// replace the game screen with the game over menu
-	CCDirector::sharedDirector()->replaceScene(gameOver);
-
-	// release the current reference of the background layer
-	backLayer->release();
+	GameScreen::getInstance()->gameOver();
 }
