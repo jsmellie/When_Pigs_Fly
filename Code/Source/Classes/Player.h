@@ -16,6 +16,7 @@
 #define PLAYER_FRICTION			0.2f
 #define PLAYER_REST				0.0f
 #define PLAYER_MAXSPEED			20.0f
+#define PLAYER_VERT_THRUST		VISIBLESIZE.width / 10
 
 //Player rotation numbers.  All in degrees
 #define PLAYER_LIFT_ROT			7.0f
@@ -35,7 +36,7 @@
 #define NAME_PLAYER				"Player"
 
 // Crashing variables
-#define PLAYER_CRASH_SPEED		200.0f
+#define PLAYER_CRASH_SPEED		200
 
 class Player : public Object
 {

@@ -39,7 +39,7 @@ bool Player::init()
 	// Default values
 	m_DeleteBody = false;
 	m_Name = NAME_PLAYER;
-	m_vThrust = b2Vec2(0, 40.0f);
+	m_vThrust = b2Vec2(0, PLAYER_VERT_THRUST);
 	m_isInputPressed = false;
 	m_pPhysicsBody = 0;
 

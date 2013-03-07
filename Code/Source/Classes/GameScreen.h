@@ -5,6 +5,7 @@
 #include "CommonHeader.h"
 
 #define SCORE_PER_SECOND		2.115f
+#define SCORE_SIZE				CCDirector::sharedDirector()->getVisibleSize().width * 0.075f
 
 class MainLayer;
 

@@ -4,11 +4,15 @@
 //Header made to contain various defines, functions and variables that will be needed
 #define USING_BOX2D 1
 
+#define uint					unsigned int
+#define VISIBLESIZE				CCDirector::sharedDirector()->getVisibleSize()
+#define ORIGIN					CCDirector::sharedDirector()->getVisibleOrigin()
+
 #if USING_BOX2D
 
 #include "Box2D\Box2D.h"
 
-#define PTM_RATIO				(PLAYER_HEIGHT / 3.34f)
+#define PTM_RATIO				(VISIBLESIZE.width / 33.4f)
 #endif
 
 // Each class needs these
@@ -17,8 +21,6 @@
 
 // Other files that are commanly used
 #include "Player.h"
-
-#define uint unsigned int
 
 
 #endif // __COMMON_HEADER_H__

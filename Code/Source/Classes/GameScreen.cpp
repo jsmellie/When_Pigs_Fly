@@ -43,7 +43,6 @@ b2Vec2 GameScreen::getGravity()
 
 bool GameScreen::init()
 {
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	if( !CCScene::init())
@@ -78,14 +77,14 @@ bool GameScreen::init()
 	initBackground();
 
 	// Initialize the score's label
-	m_pScoreLabel = CCLabelTTF::create("TEST", "fonts/AlphaWood.ttf", 36);
+	m_pScoreLabel = CCLabelTTF::create("TEST", "fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
 
 	ccColor3B color;
 
 	color.r = color.b = color.g = 0;
 
 	m_pScoreLabel->setColor(color);
-	m_pScoreLabel->setPosition(ccp(visibleSize.width - m_pScoreLabel->getContentSize().width, visibleSize.height - m_pScoreLabel->getContentSize().height));
+	m_pScoreLabel->setPosition(ccp(VISIBLESIZE.width - m_pScoreLabel->getContentSize().width, VISIBLESIZE.height - m_pScoreLabel->getContentSize().height));
 
 	//Add the layers as children
 	this->addChild(m_pMain, 0);
@@ -120,9 +119,6 @@ void GameScreen::update(float delta)
 {
 	if(m_fScore > -1)
 	{
-		CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-		CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
 		m_fScore += delta * SCORE_PER_SECOND;
 
 		char* scoreString = new char[16];
@@ -131,7 +127,7 @@ void GameScreen::update(float delta)
 		
 		m_pScoreLabel->setString(scoreString);
 
-		m_pScoreLabel->setPosition(ccp(visibleSize.width - (m_pScoreLabel->getContentSize().width/6)*5, visibleSize.height - m_pScoreLabel->getContentSize().height));
+		m_pScoreLabel->setPosition(ccp(VISIBLESIZE.width - (m_pScoreLabel->getContentSize().width/6)*5, VISIBLESIZE.height - m_pScoreLabel->getContentSize().height));
 	}
 }
 
