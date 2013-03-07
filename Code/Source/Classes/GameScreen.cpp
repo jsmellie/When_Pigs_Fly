@@ -77,13 +77,15 @@ bool GameScreen::init()
 	initBackground();
 
 	// Initialize the score's label
-	m_pScoreLabel = CCLabelTTF::create("TEST", "fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
+	//m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/FaceYourFears.ttf", SCORE_SIZE);
+	m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/PaintyPaint.ttf", SCORE_SIZE);
+	//m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
 
 	ccColor3B color;
 
-	color.r = color.b = color.g = 0;
+	color.r = color.b = color.g = 1;
 
-	m_pScoreLabel->setColor(color);
+	//m_pScoreLabel->setColor(color);
 	m_pScoreLabel->setPosition(ccp(VISIBLESIZE.width - m_pScoreLabel->getContentSize().width, VISIBLESIZE.height - m_pScoreLabel->getContentSize().height));
 
 	//Add the layers as children
