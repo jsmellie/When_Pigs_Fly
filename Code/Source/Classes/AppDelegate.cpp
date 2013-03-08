@@ -37,11 +37,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
         pDirector->setContentScaleFactor(MIN(largeResource.size.height/designResolutionSize.height, largeResource.size.width/designResolutionSize.width));
 	}
     // if the frame's height is larger than the height of small resource size, select medium resource.
-    else if (frameSize.height > smallResource.size.height)
+    /*else if (frameSize.height > smallResource.size.height)
     { 
         CCFileUtils::sharedFileUtils()->setResourceDirectory(mediumResource.directory);
         pDirector->setContentScaleFactor(MIN(mediumResource.size.height/designResolutionSize.height, mediumResource.size.width/designResolutionSize.width));
-    }
+    }*/
     // if the frame's height is smaller than the height of medium resource size, select small resource.
 	else
     { 

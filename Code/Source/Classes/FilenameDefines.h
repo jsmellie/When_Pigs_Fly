@@ -16,6 +16,8 @@
 #define PLAY_FILENAME							"Menus/play.png"
 #define OPTIONS_FILENAME						"Menus/options.png"
 #define TITLE_FILENAME							"Menus/title.png"
+#define PAUSE_FADE_FILENAME						"Menus/pauseFade.png"
+#define PAUSE_NOFADE_FILENAME					"Menus/pauseNoFade.png"
 
 // Background filenames
 #define CLOSE_BACKGROUND_FILENAME				"Backgrounds/Fields-Close.png"

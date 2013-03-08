@@ -9,11 +9,14 @@ USING_NS_CC;
 
 GameScreen* GameScreen::m_pInstance = 0;
 
-void GameScreen::getLayers(CCLayer* background, CCLayer* main)
+GameScreen* GameScreen::getInstance()
 {
-	background = 0;//getBackground();
+	if(m_pInstance == 0)
+	{
+		GameScreen::create();
+	}
 
-	main = getMain();
+	return m_pInstance;
 }
 
 CCLayer* GameScreen::getBackground()
@@ -26,14 +29,9 @@ MainLayer* GameScreen::getMain()
 	return m_pMain;
 }
 
-GameScreen* GameScreen::getInstance()
+CCLayer* GameScreen::getGUI()
 {
-	if(m_pInstance == 0)
-	{
-		GameScreen::create();
-	}
-
-	return m_pInstance;
+	return m_pGUI;
 }
 
 b2Vec2 GameScreen::getGravity()
@@ -43,8 +41,6 @@ b2Vec2 GameScreen::getGravity()
 
 bool GameScreen::init()
 {
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
 	if( !CCScene::init())
 	{
 		return false;
@@ -59,6 +55,10 @@ bool GameScreen::init()
 		m_pInstance = this;
 	}
 
+	m_pMain = 0;
+
+	m_pGUI = m_pBackground = 0;
+
 	m_pScoreLabel = 0;
 
 	m_vGravity = b2Vec2(0.0f, -9.8f);
@@ -69,29 +69,19 @@ bool GameScreen::init()
 	m_pMain = MainLayer::create();
 	m_pMain->retain();
 
-	// Create the backgroud layer
-	m_pBackground = CCLayer::create();
-	m_pBackground->retain();
-
 	// Initialize background with it's values
 	initBackground();
 
-	// Initialize the score's label
-	//m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/FaceYourFears.ttf", SCORE_SIZE);
-	m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/PaintyPaint.ttf", SCORE_SIZE);
-	//m_pScoreLabel = CCLabelTTF::create("TEST", "Resources/fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
+	// Initialize the GUI
+	initGUI();
 
-	ccColor3B color;
-
-	color.r = color.b = color.g = 1;
-
-	//m_pScoreLabel->setColor(color);
-	m_pScoreLabel->setPosition(ccp(VISIBLESIZE.width - m_pScoreLabel->getContentSize().width, VISIBLESIZE.height - m_pScoreLabel->getContentSize().height));
+	// Check to make sure all the layers are initialized
+	CCAssert(m_pMain && m_pBackground && m_pGUI, "");
 
 	//Add the layers as children
 	this->addChild(m_pMain, 0);
 	this->addChild(m_pBackground, -1);
-	this->addChild(m_pScoreLabel, 1);
+	this->addChild(m_pGUI, 1);
 
 	this->scheduleUpdate();
 
@@ -100,6 +90,10 @@ bool GameScreen::init()
 
 bool GameScreen::initBackground()
 {
+	// Create the backgroud layer
+	m_pBackground = CCLayer::create();
+	m_pBackground->retain();
+
 	//Creation of test parallax objects
 	ParallaxObject* closeParallax = ParallaxObject::create(CLOSE_BACKGROUND_FILENAME, -2);
 	ParallaxObject* mediumParallax = ParallaxObject::create(MEDIUM_BACKGROUND_FILENAME, -6);
@@ -113,6 +107,26 @@ bool GameScreen::initBackground()
 	m_pBackground->addChild(mediumParallax, -2);
 	m_pBackground->addChild(cloudsParallax, -9);
 	m_pBackground->addChild(sky, -10);
+
+	return true;
+}
+
+bool GameScreen::initGUI()
+{
+	// Initialize the score's label
+	m_pScoreLabel = CCLabelTTF::create("0 km", "Resources/fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
+
+	ccColor3B color;
+
+	color.r = color.b = color.g = 255;
+
+	m_pScoreLabel->setColor(color);
+	m_pScoreLabel->setPosition(ccp(VISIBLESIZE.width - m_pScoreLabel->getContentSize().width, VISIBLESIZE.height - m_pScoreLabel->getContentSize().height));
+
+	m_pGUI = CCLayer::create();
+	CC_SAFE_RETAIN(m_pGUI);
+
+	m_pGUI->addChild(m_pScoreLabel);
 
 	return true;
 }

@@ -12,7 +12,7 @@
 
 #include "Box2D\Box2D.h"
 
-#define PTM_RATIO				(VISIBLESIZE.width / 33.4f)
+#define PTM_RATIO				(PLAYER_HEIGHT / 3.34f)
 #endif
 
 // Each class needs these

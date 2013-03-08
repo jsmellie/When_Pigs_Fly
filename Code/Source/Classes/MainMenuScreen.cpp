@@ -18,25 +18,56 @@ void MainMenuScreen::setTransition(MMTransition transition)
 			if(m_pMenu != 0)
 			{
 				// Set the button layer's scale to something really small
-				m_pMenu->setScale(0.01f);
+				//m_pMenu->setScale(0.01f);
 
 				// Scale the layer to it's proper size over 1 second
-				CCScaleTo* pScaleTo = CCScaleTo::create(1.1f, 1);
+				//CCScaleTo* pScaleTo = CCScaleTo::create(1.1f, 1);
 
 				// Make the scale bounce nicely
-				CCEaseBounceOut* pBounceScale = CCEaseBounceOut::create(pScaleTo);
+				//CCEaseBounceOut* pBounceScale = CCEaseBounceOut::create(pScaleTo);
 
 				// Run the intro action
-				m_pMenu->runAction(pBounceScale);
+				//m_pMenu->runAction(pBounceScale);
+
+				int childItemCount = m_pMenu->getChildrenCount();
+
+				CCArray* children = m_pMenu->getChildren();
+
+				for(int i = 0; i < childItemCount; ++i)
+				{
+					CCMenuItemImage* item = (CCMenuItemImage*)children->objectAtIndex(i);
+
+					CCDelayTime* pDelay = 0;
+
+					if(i > 0)
+					{
+						pDelay = CCDelayTime::create(i * 0.2f);
+					}
+
+					CCMoveBy* pMoveUp = CCMoveBy::create(0.7f, ccp(0, item->getContentSize().height));
+
+					CCEaseSineOut* pEaseUp = CCEaseSineOut::create(pMoveUp);
+
+					if(pDelay)
+					{
+						CCSequence* pSequence = CCSequence::createWithTwoActions(pDelay, pEaseUp);
+
+						item->runAction(pSequence);
+					}
+					else
+					{
+						item->runAction(pEaseUp);
+					}
+				}
 			}
 
 			if(m_pTitle != 0)
 			{
-				CCMoveTo* pMoveTo = CCMoveTo::create(1.1f, ccp(middle, (visibleSize.height/4)*3 + origin.y - m_pTitle->getContentSize().height/8));
+				CCMoveTo* pMoveDown = CCMoveTo::create(1.1f, ccp(middle, (visibleSize.height/4)*3.25f + origin.y - m_pTitle->getContentSize().height/8));
 
-				CCEaseBounceOut* pTitleBouce = CCEaseBounceOut::create(pMoveTo);
+				CCEaseSineOut* pEaseDown = CCEaseSineOut::create(pMoveDown);
 
-				m_pTitle->runAction(pTitleBouce);
+				m_pTitle->runAction(pEaseDown);
 			}
 
 			break;
@@ -98,11 +129,11 @@ MainMenuScreen::~MainMenuScreen()
 
 bool MainMenuScreen::initButtonLayer()
 {
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	//CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
 	// Quick calculation for the middle of the screen on X
-	float middle = (visibleSize.width/2) + origin.x;
+	float middle = (VISIBLESIZE.width/2) + ORIGIN.x;
 
 	// Initialization of button layer
 	m_pButtonLayer = CCLayer::create();
@@ -112,15 +143,19 @@ bool MainMenuScreen::initButtonLayer()
 
 	//Creation of the play button
 	CCMenuItemImage* pPlay = CCMenuItemImage::create(PLAY_FILENAME, PLAY_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::playCallback));
-	pPlay->setPosition(middle - (pPlay->getContentSize().width * 1.5f), (visibleSize.height/4) + origin.y);
+	
+	float yPos = (VISIBLESIZE.height/5.5f) + ORIGIN.y - pPlay->getContentSize().height;
+
+	pPlay->setPosition(middle - (pPlay->getContentSize().width * 1.5f), yPos);
 
 	//Creation of the options button
 	CCMenuItemImage* pOptions = CCMenuItemImage::create(OPTIONS_FILENAME, OPTIONS_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::optionsCallback));
-	pOptions->setPosition(middle + (pPlay->getContentSize().width * 1.5f), (visibleSize.height/4) + origin.y);
+	CCSprite* normalImage = (CCSprite*)pOptions->getNormalImage();
+	pOptions->setPosition(middle + (pPlay->getContentSize().width * 1.5f), yPos);
 
 	// Creation of the highscores button
 	CCMenuItemImage* pHighscores = CCMenuItemImage::create(OPTIONS_FILENAME, OPTIONS_FILENAME, m_pButtonLayer, menu_selector(MainMenuScreen::optionsCallback));
-	pHighscores->setPosition(middle, (visibleSize.height/4) + origin.y);
+	pHighscores->setPosition(middle, yPos);
 
 	// Menu object that holds the buttons
 	m_pMenu = CCMenu::create(pPlay, pOptions, pHighscores, 0);
@@ -137,7 +172,7 @@ bool MainMenuScreen::initButtonLayer()
 
 	//float middle = (visibleSize.width/2) + origin.x;
 
-	m_pTitle->setPosition(ccp(middle, visibleSize.height + origin.y + m_pTitle->getContentSize().height));
+	m_pTitle->setPosition(ccp(middle, VISIBLESIZE.height + ORIGIN.y + m_pTitle->getContentSize().height));
 
 	m_pButtonLayer->addChild(m_pTitle);
 
