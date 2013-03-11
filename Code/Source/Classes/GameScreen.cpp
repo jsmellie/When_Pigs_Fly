@@ -114,7 +114,7 @@ bool GameScreen::initBackground()
 bool GameScreen::initGUI()
 {
 	// Initialize the score's label
-	m_pScoreLabel = CCLabelTTF::create("0 km", "Resources/fonts/WorstPaintJobEver.ttf", SCORE_SIZE);
+	m_pScoreLabel = CCLabelTTF::create("0 km", PAINT_FONT_FILENAME, SCORE_SIZE);
 
 	ccColor3B color;
 

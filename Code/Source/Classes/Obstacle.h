@@ -11,11 +11,6 @@
 #define MED_SPEED			225.0f
 #define SLOW_SPEED			90.0f
 
-//Sprite filenames
-#define FAST_FILENAME		"Obstacles/FastObt.png"
-#define MED_FILENAME		"Obstacles/MedObt.png"
-#define SLOW_FILENAME		"Obstacles/SlowObt.png"
-
 //Default names
 #define NAME_FAST			"FastObt"
 #define NAME_MED			"MedObt"
