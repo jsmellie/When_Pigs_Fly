@@ -31,11 +31,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // this can make sure that the resource's height could fit for the height of design resolution.
 
     // if the frame's height is larger than the height of medium resource size, select large resource.
-	if (frameSize.height > mediumResource.size.height)
+	/*if (frameSize.height > mediumResource.size.height)
 	{ 
 		CCFileUtils::sharedFileUtils()->setResourceDirectory(largeResource.directory);
         pDirector->setContentScaleFactor(MIN(largeResource.size.height/designResolutionSize.height, largeResource.size.width/designResolutionSize.width));
-	}
+	}*/
     // if the frame's height is larger than the height of small resource size, select medium resource.
     /*else if (frameSize.height > smallResource.size.height)
     { 
@@ -43,7 +43,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
         pDirector->setContentScaleFactor(MIN(mediumResource.size.height/designResolutionSize.height, mediumResource.size.width/designResolutionSize.width));
     }*/
     // if the frame's height is smaller than the height of medium resource size, select small resource.
-	else
+	//else
     { 
 		CCFileUtils::sharedFileUtils()->setResourceDirectory(smallResource.directory);
         pDirector->setContentScaleFactor(MIN(smallResource.size.height/designResolutionSize.height, smallResource.size.width/designResolutionSize.width));
